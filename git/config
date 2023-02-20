@@ -1,0 +1,9 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+
+[user]
+    name = Harshit Aghera
+    email = harshitpaghera@gmail.com

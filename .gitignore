@@ -1,0 +1,6 @@
+build-dir/**
+CMakeFiles/**
+CMakeLists.txt.user
+temp/**
+.vscode/**
+.cache/**

@@ -1,0 +1,9 @@
+FieldDescriptorProto
+	string package - name of package
+	DescriptorProto message_type - contains info of messages in parsed .proto
+	EnumDescriptorProto enum_type - contains enums
+
+What is Needed for reflections
+	name of the message
+	name, type(int, string, etc), and label(optional, repeated, etc) of numeric and enum fields of messages [including nested messages]
+	

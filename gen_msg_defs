@@ -1,0 +1,1 @@
+../protobuf-3.21.12/build/protoc msg_defs/msg_defs.proto msg_defs/nanopb.proto -Imsg_defs -Isrc/third-party/protobuf-3.21.12/src --cpp_out=src/msg_defs

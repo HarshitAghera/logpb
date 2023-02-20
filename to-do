@@ -1,0 +1,30 @@
+[~] write tests
+[!] add ASSERT
+[!] write readme
+[!] finalize name
+
+[#] finalize licensing
+[#] add licensing info to each file
+[#] add .clang-format
+[#] add google test
+
+// --------------Thoughts-------------- //
+We could just start working on Qt app, the basics of an desktop
+app like bars, menus and controls.
+Or could work on nanopb, and how to read from a stream.
+Or add tests for the source files.
+Or virtual serial port for testing.
+
+Need to add tests. Procastinating on it a lot. Not a good thing.
+Got stream to working, but yet to figure out how to recover from lost 'bytes'.
+May have to introduce delimeter or something.
+Should start working on Qt app. 
+Need to fine tune nvim as well. 
+Name! what name should I give. Consult sanskrit expert for it. May be. I don't know.
+Need to do some digging. It would be just better if we set the deadline to migrate 
+to github. 26th Feb Sunday sounds like a nice deadline to have.
+
+// ----------------------------------- //
+! - in backlog
+~ - in progress
+# - completed
