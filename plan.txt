@@ -1,0 +1,33 @@
+List of Menus
+    - File
+    - Device
+    - Log
+    - Visualize
+    - Layout/View
+    - Settings
+    - Help
+
+List of Actions
+    - Open (Will open a session file)
+    - Close
+    - Save (Saves current session file)
+    - Save as
+
+    - Connect
+    - Disconnect
+
+    - Log a message type
+    - All logger (with check button, and on click will open modification dialog box)
+
+    - Add grpah
+    - All graph (with check button, and on click will open modification dialog box)
+
+    - Auto arrange
+
+    - Preferences
+
+    - Help
+
+
+Thoughts on working and asthetics of the app
+
