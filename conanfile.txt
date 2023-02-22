@@ -3,3 +3,6 @@ fmt/9.1.0
 
 [generators]
 cmake
+
+[options]
+fmt:header_only=True

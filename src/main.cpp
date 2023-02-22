@@ -8,11 +8,10 @@
 #include <fmt/core.h>
 #include <fmt/ranges.h>
 #include <stdio.h>
-#include <unistd.h>
 
 void read_stream_from_file(const std::string_view filename,
                            const logpb::Message_Def_Gen& msg_defs) {
-    std::FILE* fd = fopen(filename.data(), "r");
+    std::FILE* fd = fopen(filename.data(), "rb");
 
     logpb::Stream_Parser parser =
         logpb::Stream_Parser::create_from_file(fileno(fd), &msg_defs);
@@ -23,7 +22,7 @@ void read_stream_from_file(const std::string_view filename,
 }
 
 void write_stream_to_file(const std::string_view filename) {
-    std::FILE* fd = fopen(filename.data(), "w");
+    std::FILE* fd = fopen(filename.data(), "wb");
 
     logpb::Stream_Generator generator{
         logpb::Stream_Generator::create_from_file(fileno(fd))};
@@ -38,22 +37,25 @@ void write_stream_to_file(const std::string_view filename) {
 int main(int argc, char* argv[]) {
     // std::string output_file{argv[3]};
     // logpb::generate_rand_msgs(output_file);
-    // fmt::print("Output is written to {0}\n", output_file);
+    // fmt::print("Output is written to {0}\n", argv[1]);
 
     logpb::Message_Def_Gen cmplr({std::string{argv[1]}});
 
     // cmplr.print_data();
     // cmplr.print_summary();
 
-    std::unique_ptr<Logger> console_logger{new Console_Logger{}};
-    cmplr.register_logger("logpb.Force", console_logger.get());
-    cmplr.register_logger("logpb.Pressure", console_logger.get());
+    std::unique_ptr<Logger> force_console_logger{new Console_Logger{}};
+    cmplr.register_logger("logpb.Force", force_console_logger.get());
+    std::unique_ptr<Logger> pres_console_logger{new Console_Logger{}};
+    cmplr.register_logger("logpb.Pressure", pres_console_logger.get());
 
-    //    write_stream_to_file(std::string{argv[2]});
-    read_stream_from_file(std::string{argv[2]}, cmplr);
+    std::string bin_file{argv[2]};
 
-    //    std::fstream in(std::string{argv[3]}, std::ios::in |
-    //    std::ios::binary); const auto msg = cmplr.parse_message(argv[2], in);
+    write_stream_to_file(bin_file);
+    read_stream_from_file(bin_file, cmplr);
+
+    // std::fstream in(std::string{argv[3]}, std::ios::in | std::ios::binary);
+    // const auto msg = cmplr.parse_message(argv[2], in);
 
     // auto pressure = cmplr.get_numuric("pressure", "pressure", *msg);
     // auto force = cmplr.get_numuric("force", "force", *msg);
@@ -61,7 +63,7 @@ int main(int argc, char* argv[]) {
     // fmt::print("Pressure: {}\nForce: {}\n\n", fmt::join(pressure, ", "),
     // fmt::join(force, ", "));
 
-    //    delete msg;
+    // delete msg;
 }
 
 // PROJECT PROJECT-OBJECTIVE.

@@ -22,6 +22,8 @@ option(protobuf_BUILD_EXAMPLES "Build examples" OFF)
 option(protobuf_BUILD_PROTOC_BINARIES "Build libprotoc and protoc compiler" OFF)
 option(protobuf_BUILD_LIBPROTOC "Build libprotoc" OFF)
 option(protobuf_DISABLE_RTTI "Remove runtime type information in the binaries" OFF)
+option(protobuf_MSVC_STATIC_RUNTIME OFF)
+
 
 # protobuf lib
 add_subdirectory(third-party/protobuf-3.21.12)
@@ -29,6 +31,8 @@ add_subdirectory(third-party/protobuf-3.21.12)
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/module")
 include(AddCXXCompilerFlag)
 
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+else ()
 add_cxx_compiler_flag(-Wall)
 add_cxx_compiler_flag(-Wextra)
 add_cxx_compiler_flag(-Wsuggest-override)
@@ -53,6 +57,7 @@ add_cxx_compiler_flag(-fno-exceptions)
 add_cxx_compiler_flag(-fno-rtti)
 
 add_cxx_compiler_flag(-static)
+endif()
 
 
 set(PROJECT_LIB "${PROJECT_NAME}-lib")

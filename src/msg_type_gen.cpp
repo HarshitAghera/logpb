@@ -8,7 +8,7 @@
 #include <fstream>
 
 #include <fmt/core.h>
-#define FMT_HEADER_ONLY
+// #define FMT_HEADER_ONLY
 #include <fmt/format.h>
 
 namespace logpb {
@@ -56,6 +56,10 @@ Message_Def_Gen::Message_Def_Gen(const std::vector<std::string>& files)
     dst.MapPath("google/protobuf/descriptor.proto",
                 "build-dir/bin/resources/descriptor.proto");
 
+    dst.MapPath("nanopb.proto", "build-logpb-Desktop_Qt_6_3_2_MSVC2019_64bit-Debug/bin/resources/nanopb.proto");
+    dst.MapPath("google/protobuf/descriptor.proto",
+                "build-logpb-Desktop_Qt_6_3_2_MSVC2019_64bit-Debug/bin/resources/descriptor.proto");
+
     // dst.MapPath("nanopb.proto", "resources/nanopb.proto");
     // dst.MapPath("google/protobuf/descriptor.proto",
     //             "resources/descriptor.proto");
@@ -78,7 +82,8 @@ Message_Def_Gen::Message_Def_Gen(const std::vector<std::string>& files)
 
                 file_pkg = std::prev(pkgs.end());
 
-                packages.insert({file_pkg_name, file_pkg.base()});
+                // packages.insert({file_pkg_name, file_pkg.base()});
+                packages.insert({file_pkg_name, &(*file_pkg)});
             }
 
             for (int i{}; i < proto->message_type_count(); ++i) {
