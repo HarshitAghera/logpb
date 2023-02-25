@@ -7,13 +7,18 @@ MainWindow::MainWindow(QWidget *parent)
       , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    make_connections();
+}
+
+void MainWindow::make_connections() {
+    connect(ui->actionLoad_definitions, &QAction::triggered, this,
+            &MainWindow::load_msg_defs);
 }
 
 MainWindow::~MainWindow() { delete ui; }
 
-void MainWindow::on_actionOpen_triggered() {}
-
-void MainWindow::on_actionConnect_triggered() {
+void MainWindow::load_msg_defs() {
     // open a sub-window
     Connect_Window connect_window{this};
     connect_window.exec();

@@ -15,6 +15,12 @@ public:
     explicit Connect_Window(QWidget *parent = nullptr);
     ~Connect_Window();
 
+private slots:
+    void load_msg_defs();
+
+private:
+    void make_connections();
+
 private:
     Ui::Connect_Window *ui;
 };

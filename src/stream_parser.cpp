@@ -3,6 +3,8 @@
 #include <google/protobuf/io/zero_copy_stream_impl.h>
 #include <msg_defs/msg_defs.pb.h>
 
+#include <fmt/core.h>
+
 namespace logpb {
 Stream_Parser::Stream_Parser(std::unique_ptr<ZeroCopyInputStream> is,
                              const Message_Def_Gen* defs)
@@ -53,6 +55,7 @@ int Stream_Parser::parse_msg(bool* clean_eof) {
     io::CodedInputStream::Limit limit = cis.PushLimit(static_cast<int>(size));
 
     std::unique_ptr<Message> msg{msg_defs->parse_message(msgid, cis)};
+    fmt::print("{}\n", msg->DebugString());
 
     // Parse the message.
     if (!msg) return false;

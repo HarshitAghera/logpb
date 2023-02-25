@@ -31,6 +31,7 @@
     <addaction name="actionClose"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_as"/>
+    <addaction name="actionLoad_definitions"/>
    </widget>
    <widget class="QMenu" name="menuDevice">
     <property name="title">
@@ -137,6 +138,11 @@
   <action name="actionHelp">
    <property name="text">
     <string>Help</string>
+   </property>
+  </action>
+  <action name="actionLoad_definitions">
+   <property name="text">
+    <string>Load definitions</string>
    </property>
   </action>
  </widget>

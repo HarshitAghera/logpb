@@ -16,9 +16,10 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_actionOpen_triggered();
+    void load_msg_defs();
 
-    void on_actionConnect_triggered();
+private:
+    void make_connections();
 
 private:
     Ui::MainWindow *ui;
