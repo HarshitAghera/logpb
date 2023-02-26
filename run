@@ -1,2 +1,2 @@
-cd "$(dirname "${BASH_SOURCE[0]}")"
-./build-dir/bin/logpb msg_defs/msg_defs.proto out/stream
+cd "$(dirname "${BASH_SOURC[0]}")"
+./build-dir/bin/logpb-base msg_defs/msg_defs.proto out/stream
