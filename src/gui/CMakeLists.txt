@@ -46,6 +46,7 @@ else()
 endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE "${PROJECT_NAME}-app")
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

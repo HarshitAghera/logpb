@@ -28,11 +28,21 @@ class Parser_Error_Collector final : public MultiFileErrorCollector {
                   const std::string& message) override;
     void AddWarning(const std::string& filename, int line, int column,
                     const std::string& message) override;
+
+    const std::vector<std::string>& get_errors() { return errors; }
+    const std::vector<std::string>& get_warnings() { return warnings; }
+
+private:
+    std::vector<std::string> errors;
+    std::vector<std::string> warnings;
 };
 
 class Message_Def_Gen {
 public:
     Message_Def_Gen(const std::vector<std::string>& files);
+    Message_Def_Gen();
+
+    int import_def_file(const std::string& filename);
 
     // Parse message fron istream and return and pointer to it. Ownership is
     // passed to caller. If logger is registed for the message type using

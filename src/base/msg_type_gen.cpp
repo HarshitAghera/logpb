@@ -37,72 +37,88 @@ namespace logpb {
 
 void Parser_Error_Collector::AddError(const std::string& filename, int line,
                                       int column, const std::string& message) {
-    fmt::print("Parse Error for file {}, at line {}, col {} : {}\n", filename,
-               line, column, message);
+    std::string er = fmt::format("line {}:{} : {}", line, column, message);
+    fmt::print("Parse Error for file {} : {}", filename, er);
+
+    errors.push_back(std::move(er));
 }
 
 void Parser_Error_Collector::AddWarning(const std::string& filename, int line,
                                         int column,
                                         const std::string& message) {
-    fmt::print("Parse Warning for file {}, at line {}, col {} : {}\n", filename,
-               line, column, message);
+    std::string wn = fmt::format("line {}:{} : {}", line, column, message);
+    fmt::print("Parse Warning for file {} : {}", filename, wn);
+
+    warnings.push_back(std::move(wn));
 }
 
 Message_Def_Gen::Message_Def_Gen(const std::vector<std::string>& files)
-    : importer{&dst, &error_collector} {
-    // mapping app directory to viratual directory
-    dst.MapPath({}, {});
-    dst.MapPath("nanopb.proto", "build-dir/bin/resources/nanopb.proto");
-    dst.MapPath("google/protobuf/descriptor.proto",
-                "build-dir/bin/resources/descriptor.proto");
-
-    dst.MapPath("nanopb.proto", "build-logpb-Desktop_Qt_6_3_2_MSVC2019_64bit-Debug/bin/resources/nanopb.proto");
-    dst.MapPath("google/protobuf/descriptor.proto",
-                "build-logpb-Desktop_Qt_6_3_2_MSVC2019_64bit-Debug/bin/resources/descriptor.proto");
-
-    // dst.MapPath("nanopb.proto", "resources/nanopb.proto");
-    // dst.MapPath("google/protobuf/descriptor.proto",
-    //             "resources/descriptor.proto");
-
+    : Message_Def_Gen() {
     for (auto& filename : files) {
-        const FileDescriptor* proto = importer.Import(filename);
-
-        if (proto) {
-            const std::string file_pkg_name = proto->package();
-
-            auto compare_pkgs = [&](const Package& p) {
-                return p.name == file_pkg_name;
-            };
-
-            auto file_pkg = find_if(pkgs.begin(), pkgs.end(), compare_pkgs);
-
-            if (file_pkg == pkgs.end()) {
-                pkgs.emplace_back(
-                    Package{.name = file_pkg_name, .msgs = {}, .enums = {}});
-
-                file_pkg = std::prev(pkgs.end());
-
-                // packages.insert({file_pkg_name, file_pkg.base()});
-                packages.insert({file_pkg_name, &(*file_pkg)});
-            }
-
-            for (int i{}; i < proto->message_type_count(); ++i) {
-                add_msg(file_pkg->msgs, *(proto->message_type(i)));
-            }
-
-            for (int i{}; i < proto->enum_type_count(); ++i) {
-                add_enum(file_pkg->enums, *(proto->enum_type(i)));
-            }
-        } else {
-            // TODO : use ASSERTS or exception
-            fmt::print("Content of file : {0}\n", dst.GetLastErrorMessage());
-        }
+        import_def_file(filename);
     }
 
     for (auto& pkg : pkgs) {
         create_enum_reg(pkg.enums);
         create_msg_reg(pkg.msgs);
     }
+}
+
+Message_Def_Gen::Message_Def_Gen() : importer{&dst, &error_collector} {
+    // mapping app directory to viratual directory
+    dst.MapPath({}, {});
+
+    dst.MapPath("nanopb.proto", "build-dir/bin/resources/nanopb.proto");
+    dst.MapPath("google/protobuf/descriptor.proto",
+                "build-dir/bin/resources/descriptor.proto");
+
+    dst.MapPath("nanopb.proto",
+                "build-logpb-Desktop_Qt_6_3_2_MSVC2019_64bit-Debug/bin/"
+                "resources/nanopb.proto");
+    dst.MapPath("google/protobuf/descriptor.proto",
+                "build-logpb-Desktop_Qt_6_3_2_MSVC2019_64bit-Debug/bin/"
+                "resources/descriptor.proto");
+
+    // dst.MapPath("nanopb.proto", "resources/nanopb.proto");
+    // dst.MapPath("google/protobuf/descriptor.proto",
+    //             "resources/descriptor.proto");
+}
+
+int Message_Def_Gen::import_def_file(const std::string& filename) {
+    const FileDescriptor* proto = importer.Import(filename);
+
+    if (proto) {
+        const std::string file_pkg_name = proto->package();
+
+        auto compare_pkgs = [&](const Package& p) {
+            return p.name == file_pkg_name;
+        };
+
+        auto file_pkg = find_if(pkgs.begin(), pkgs.end(), compare_pkgs);
+
+        if (file_pkg == pkgs.end()) {
+            pkgs.emplace_back(
+                Package{.name = file_pkg_name, .msgs = {}, .enums = {}});
+
+            file_pkg = std::prev(pkgs.end());
+
+            // packages.insert({file_pkg_name, file_pkg.base()});
+            packages.insert({file_pkg_name, &(*file_pkg)});
+        }
+
+        for (int i{}; i < proto->message_type_count(); ++i) {
+            add_msg(file_pkg->msgs, *(proto->message_type(i)));
+        }
+
+        for (int i{}; i < proto->enum_type_count(); ++i) {
+            add_enum(file_pkg->enums, *(proto->enum_type(i)));
+        }
+    } else {
+        // TODO : use ASSERTS or exception
+        fmt::print("Content of file : {0}\n", dst.GetLastErrorMessage());
+    }
+
+    return 0;
 }
 
 int Message_Def_Gen::create_enum_reg(const std::vector<Enum>& vec_enums) {
