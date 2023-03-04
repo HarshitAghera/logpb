@@ -9,4 +9,4 @@ add_library("${PROJECT_NAME}-app"
     session.cpp
 )
 
-target_link_libraries("${PROJECT_NAME}-app" "${PROJECT_NAME}-lib")
+target_link_libraries("${PROJECT_NAME}-app" PUBLIC "${PROJECT_NAME}-lib")

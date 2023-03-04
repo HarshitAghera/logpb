@@ -5,6 +5,14 @@ list(APPEND SOURCE_FILES
     logger.cpp
     stream_parser.cpp
     stream_generator.cpp
+    parse_error.cpp
+
+    # headers
+    msg_type_gen.h
+    logger.h
+    stream_parser.h
+    stream_generator.h
+    parse_error.h
 )
 
 # auto generated protobuf message definitions
@@ -27,38 +35,6 @@ option(protobuf_MSVC_STATIC_RUNTIME OFF)
 
 # protobuf lib
 add_subdirectory(third-party/protobuf-3.21.12)
-
-list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/module")
-include(AddCXXCompilerFlag)
-
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-else ()
-add_cxx_compiler_flag(-Wall)
-add_cxx_compiler_flag(-Wextra)
-add_cxx_compiler_flag(-Wsuggest-override)
-add_cxx_compiler_flag(-pedantic)
-add_cxx_compiler_flag(-pedantic-errors)
-add_cxx_compiler_flag(-Wshorten-64-to-32)
-add_cxx_compiler_flag(-Wthread-safety)
-
-add_cxx_compiler_flag(-Wno-shadow)
-add_cxx_compiler_flag(-Wno-unused-parameter)
-add_cxx_compiler_flag(-Wno-narrowing)
-add_cxx_compiler_flag(-Wno-unused-variable)
-add_cxx_compiler_flag(-Wno-missing-field-initializers)
-add_cxx_compiler_flag(-Wno-lto-type-mismatch)
-
-add_cxx_compiler_flag(-fdiagnostics-color=always)
-add_cxx_compiler_flag(-fsanitize=address)
-add_cxx_compiler_flag(-fstrict-aliasing)
-# add_cxx_compiler_flag(-flto)
-
-add_cxx_compiler_flag(-fno-exceptions)
-add_cxx_compiler_flag(-fno-rtti)
-
-add_cxx_compiler_flag(-static)
-endif()
-
 
 set(PROJECT_LIB "${PROJECT_NAME}-lib")
 

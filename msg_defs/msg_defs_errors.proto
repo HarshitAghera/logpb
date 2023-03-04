@@ -1,0 +1,47 @@
+syntax = "proto2";
+
+import "nanopb.proto";
+// msgid base: 100
+
+package logpb;
+
+// enum Message_Types {
+// 	Pressure_Type = 1;
+// 	Force_Type = 2;
+// 	Data_Type = 3;
+// }
+
+message Pressure {
+    option (nanopb_msgopt).msgid = 101;
+	// optional Message_Types type = 1 [default = Pressure_Type];
+	optional sfixed32 pressure = 2;
+	optional sfixed32 temperature = 3;
+    repeated int32 status;
+}
+
+
+message Force {
+    option (nanopb_msgopt).msgid = 102;
+    // optional Message_Types type = 1 [default = Force_Type];
+	optional sfixed32 force = 2;
+	repeated sfixed32 temperature = 3;
+
+	message Speed {
+		enum Type {
+			I2C = 1;
+			SPI = 2;
+		}
+
+		required Type t = 1;
+		optional sfixed32 val = 2;
+	}
+
+	repeated Speed s = 4;
+}
+
+message Data {
+    option (nanopb_msgopt).msgid = 103;
+    // optional Message_Types type = 1 [default = Data_Type];
+	repeated Pressure pressure = 2;
+	repeated Force force = 3;
+}

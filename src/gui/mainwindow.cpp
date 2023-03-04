@@ -20,6 +20,6 @@ MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::load_msg_defs() {
     // open a sub-window
-    Connect_Window connect_window{this};
+    Connect_Window connect_window{this, &session};
     connect_window.exec();
 }

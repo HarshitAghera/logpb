@@ -35,38 +35,19 @@ namespace logpb {
 //     return true;
 // }
 
-void Parser_Error_Collector::AddError(const std::string& filename, int line,
-                                      int column, const std::string& message) {
-    std::string er = fmt::format("line {}:{} : {}", line, column, message);
-    fmt::print("Parse Error for file {} : {}", filename, er);
-
-    errors.push_back(std::move(er));
-}
-
-void Parser_Error_Collector::AddWarning(const std::string& filename, int line,
-                                        int column,
-                                        const std::string& message) {
-    std::string wn = fmt::format("line {}:{} : {}", line, column, message);
-    fmt::print("Parse Warning for file {} : {}", filename, wn);
-
-    warnings.push_back(std::move(wn));
-}
-
 Message_Def_Gen::Message_Def_Gen(const std::vector<std::string>& files)
     : Message_Def_Gen() {
     for (auto& filename : files) {
         import_def_file(filename);
     }
 
-    for (auto& pkg : pkgs) {
-        create_enum_reg(pkg.enums);
-        create_msg_reg(pkg.msgs);
-    }
+    refresh_registery();
 }
 
 Message_Def_Gen::Message_Def_Gen() : importer{&dst, &error_collector} {
     // mapping app directory to viratual directory
     dst.MapPath({}, {});
+    dst.MapPath("/", "/");
 
     dst.MapPath("nanopb.proto", "build-dir/bin/resources/nanopb.proto");
     dst.MapPath("google/protobuf/descriptor.proto",
@@ -84,7 +65,11 @@ Message_Def_Gen::Message_Def_Gen() : importer{&dst, &error_collector} {
     //             "resources/descriptor.proto");
 }
 
-int Message_Def_Gen::import_def_file(const std::string& filename) {
+File_Error_Collector Message_Def_Gen::import_def_file(
+    const std::string& filename) {
+    File_Error_Collector errors;
+
+    error_collector.set_file_collector(&errors);
     const FileDescriptor* proto = importer.Import(filename);
 
     if (proto) {
@@ -115,7 +100,18 @@ int Message_Def_Gen::import_def_file(const std::string& filename) {
         }
     } else {
         // TODO : use ASSERTS or exception
-        fmt::print("Content of file : {0}\n", dst.GetLastErrorMessage());
+        // fmt::print("Content of file : {0}\n", dst.GetLastErrorMessage());
+    }
+
+    return errors;
+}
+
+int Message_Def_Gen::refresh_registery() {
+    pkgs = {};
+
+    for (auto& pkg : pkgs) {
+        create_enum_reg(pkg.enums);
+        create_msg_reg(pkg.msgs);
     }
 
     return 0;

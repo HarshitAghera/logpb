@@ -19,30 +19,21 @@ using namespace google::protobuf::compiler;
 // #include "msg_defs/msg_defs.pb.h"
 #include "logger.h"
 #include "hash_map.h"
+#include "parse_error.h"
 
 namespace logpb {
 bool generate_rand_msgs(std::string file);
-
-class Parser_Error_Collector final : public MultiFileErrorCollector {
-    void AddError(const std::string& filename, int line, int column,
-                  const std::string& message) override;
-    void AddWarning(const std::string& filename, int line, int column,
-                    const std::string& message) override;
-
-    const std::vector<std::string>& get_errors() { return errors; }
-    const std::vector<std::string>& get_warnings() { return warnings; }
-
-private:
-    std::vector<std::string> errors;
-    std::vector<std::string> warnings;
-};
 
 class Message_Def_Gen {
 public:
     Message_Def_Gen(const std::vector<std::string>& files);
     Message_Def_Gen();
 
-    int import_def_file(const std::string& filename);
+    int refresh_registery();
+    File_Error_Collector import_def_file(const std::string& filename);
+    const Parser_Error_Collector& get_errors() const {
+        return error_collector;
+    };
 
     // Parse message fron istream and return and pointer to it. Ownership is
     // passed to caller. If logger is registed for the message type using
@@ -125,6 +116,9 @@ private:
     int parse_message_impl(const Message& msg, const Msg& msg_info) const;
 
     const DescriptorPool& pool() { return *importer.pool(); };
+
+private:
+    bool has_errors{};
 
     std::vector<Package> pkgs;
 

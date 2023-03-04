@@ -1,13 +1,14 @@
 #pragma once
 
-#include <msg_type_gen.h>
+#include <base/msg_type_gen.h>
 
 namespace logpb {
 class Session {
 public:
-    Session();
+    const Message_Def_Gen& get_msg_defs() { return msg_defs; };
 
-    int add_msg_defs(std::vector<std::string> files);
+    File_Error_Collector add_msg_def(std::string file);
+
     int parse_msgs();
 
 private:

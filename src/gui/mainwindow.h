@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <app/session.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,5 +24,6 @@ private:
 
 private:
     Ui::MainWindow *ui;
+    logpb::Session session;
 };
 #endif // MAINWINDOW_H
