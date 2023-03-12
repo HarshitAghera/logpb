@@ -3,32 +3,35 @@
 
 #include <QDialog>
 
-namespace logpb {
-class Session;
-}
-
 namespace Ui {
 class Connect_Window;
+}
+
+namespace logpb {
+class Device_Connection;
 }
 
 class Connect_Window : public QDialog
 {
     Q_OBJECT
 
-public:
-    explicit Connect_Window(QWidget *parent, logpb::Session *s);
+private:
+    explicit Connect_Window(QWidget *parent = nullptr);
     ~Connect_Window();
 
-private slots:
-    void load_msg_defs();
+public:
+    static std::unique_ptr<logpb::Device_Connection> create_connection();
+
+    // private slots:
+private:
+    void create_file_connection();
 
 private:
-    void make_connections();
+    void make_qt_ss_connections();
 
 private:
     Ui::Connect_Window *ui;
-
-    logpb::Session *session;
+    std::unique_ptr<logpb::Device_Connection> connection;
 };
 
 #endif // CONNECT_WINDOW_H

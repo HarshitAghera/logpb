@@ -1,48 +1,46 @@
 #include "connect_window.h"
 #include "ui_connect_window.h"
 #include <QFileDialog>
-#include "app/session.h"
+#include <base/device_connection_impl.h>
 
-Connect_Window::Connect_Window(QWidget* parent, logpb::Session* s)
-    : QDialog(parent), ui(new Ui::Connect_Window), session{s} {
+#include <memory>
+
+Connect_Window::Connect_Window(QWidget *parent)
+    : QDialog(parent), ui(new Ui::Connect_Window) {
     ui->setupUi(this);
 
-    make_connections();
+    make_qt_ss_connections();
 }
 
-void Connect_Window::make_connections() {
-    connect(ui->pb_browse_defs, &QAbstractButton::clicked, this,
-            &Connect_Window::load_msg_defs);
+Connect_Window::~Connect_Window()
+{
+    delete ui;
 }
 
-Connect_Window::~Connect_Window() { delete ui; }
+void Connect_Window::make_qt_ss_connections() {
+    // clang-format off
+    connect(ui->bb_decision, &QDialogButtonBox::accepted,
+            this, &Connect_Window::accept);
+    connect(ui->bb_decision, &QDialogButtonBox::rejected,
+            this, &Connect_Window::reject);
+    connect(ui->pb_browse_defs, &QAbstractButton::clicked,
+            this, &Connect_Window::create_file_connection);
+    // clang-format on
+}
 
-void Connect_Window::load_msg_defs() {
-    QStringList msg_defs =
-        QFileDialog::getOpenFileNames(this, "Select Message Definitions", "",
-                                      "Proto files (*.proto);;All files (*)");
+void Connect_Window::create_file_connection() {
+    QString file_name = QFileDialog::getOpenFileName(
+        this, "Select Message Definitions", "", "All files (*)");
 
-    ui->id_defs->setPlainText(msg_defs.join("\n"));
+    ui->id_defs->setPlainText(file_name);
 
-    for (auto& def : msg_defs) {
-        session->add_msg_def(def.toStdString());
-    }
+    connection = std::make_unique<logpb::File_Connection>(
+        logpb::File_Connection::create_from_path(file_name.toStdString()));
+}
 
-    auto& error = session->get_msg_defs().get_errors();
+std::unique_ptr<logpb::Device_Connection> Connect_Window::create_connection() {
+    Connect_Window con_win;
+    con_win.exec();
 
-    QString message{"Errors :\n"};
-
-    for (auto& e : error.get_errors()) {
-        message.append(e.c_str());
-        message.append('\n');
-    }
-
-    message.append("\n\nWarnings:\n");
-
-    for (auto& w : error.get_warnings()) {
-        message.append(w.c_str());
-        message.append('\n');
-    }
-
-    ui->id_parse_errors->setPlainText(message);
+    return std::move(con_win.connection);
 }
