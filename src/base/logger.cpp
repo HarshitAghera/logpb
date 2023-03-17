@@ -3,8 +3,10 @@
 
 #include "logger.h"
 
-#include <fmt/core.h>
+//#include <fmt/core.h>
 #include <fmt/ranges.h>
+
+#include "uio.h"
 
 int Logger::add_elem(const size_t col, const std::string_view data) {
     entry[col] = data;
@@ -50,6 +52,33 @@ int Console_Logger::log_entry(const std::vector<std::string>& entry) {
     fmt::print("{}\n", fmt::join(entry, seperator));
 
     return 0;
+}
+
+CSV_Logger::CSV_Logger(const std::string_view file, const std::string_view del, const std::string_view lb)
+    : file_path(file)
+    , delimeter(del)
+    , line_break(lb)
+    , buffer_size(25)
+    , file_descriptor(win_io::open(file_path.c_str(), O_WRONLY | O_TEXT))
+{
+
+
+}
+
+CSV_Logger::~CSV_Logger() {
+    win_io::close(file_descriptor);
+}
+
+int CSV_Logger::write_headers(const std::vector<std::string_view>& h) {
+    std::string headers = fmt::format("{}{}", fmt::join(headers, delimeter), line_break);
+    int error = write(file_descriptor, headers.c_str(), headers.size());
+    return error;
+}
+
+int CSV_Logger::log_entry(const std::vector<std::string>& entry) {
+    std::string line = fmt::format("{}{}", fmt::join(entry, delimeter), line_break);
+    int error = write(file_descriptor, line.c_str(), line.size());
+    return error;
 }
 
 // PROJECT PROJECT-OBJECTIVE.

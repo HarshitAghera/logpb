@@ -39,7 +39,23 @@ private:
 
 class CSV_Logger : public Logger {
 public:
-    
+    CSV_Logger(const std::string_view file, const std::string_view del, const std::string_view lb);
+    ~CSV_Logger();
+
+private:
+    int log_entry(const std::vector<std::string>& field) override;
+    int write_headers(const std::vector<std::string_view>& h) override;
+
+private:
+    std::string delimeter;
+    std::string line_break;
+
+    std::string headers;
+    std::vector<std::string> entries;
+    std::string file_path;
+    int file_descriptor;
+
+    const int buffer_size;
 };
 
 // PROJECT PROJECT-OBJECTIVE.

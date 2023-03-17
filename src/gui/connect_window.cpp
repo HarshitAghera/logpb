@@ -38,8 +38,8 @@ void Connect_Window::create_file_connection() {
         logpb::File_Connection::create_from_path(file_name.toStdString()));
 }
 
-std::unique_ptr<logpb::Device_Connection> Connect_Window::create_connection() {
-    Connect_Window con_win;
+std::unique_ptr<logpb::Device_Connection> Connect_Window::create_connection(QWidget* parent) {
+    Connect_Window con_win{parent};
     con_win.exec();
 
     return std::move(con_win.connection);

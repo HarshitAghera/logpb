@@ -28,5 +28,5 @@ void MainWindow::load_msg_defs() {
 }
 
 void MainWindow::create_connection() {
-    session.set_connection(Connect_Window::create_connection());
+    session.set_connection(Connect_Window::create_connection(this));
 }

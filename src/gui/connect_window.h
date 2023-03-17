@@ -20,7 +20,7 @@ private:
     ~Connect_Window();
 
 public:
-    static std::unique_ptr<logpb::Device_Connection> create_connection();
+    static std::unique_ptr<logpb::Device_Connection> create_connection(QWidget* parent);
 
     // private slots:
 private:
