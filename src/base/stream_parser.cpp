@@ -55,7 +55,7 @@ int Stream_Parser::parse_msg(bool* clean_eof) {
     io::CodedInputStream::Limit limit = cis.PushLimit(static_cast<int>(size));
 
     std::unique_ptr<Message> msg{msg_defs->parse_message(msgid, cis)};
-    fmt::print("{}\n", msg->DebugString());
+    // fmt::print("{}\n", msg->DebugString());
 
     // Parse the message.
     if (!msg) return false;

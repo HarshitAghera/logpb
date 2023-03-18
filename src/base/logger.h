@@ -6,6 +6,11 @@
 #include <string>
 #include <string_view>
 #include <vector>
+#include <cstdio>
+
+#include <google/protobuf/io/zero_copy_stream_impl.h>
+
+using google::protobuf::io::FileOutputStream;
 
 class Logger {
 public:
@@ -39,23 +44,37 @@ private:
 
 class CSV_Logger : public Logger {
 public:
-    CSV_Logger(const std::string_view file, const std::string_view del, const std::string_view lb);
+    CSV_Logger(const std::string_view file, const std::string_view del,
+               const std::string_view lb);
     ~CSV_Logger();
 
 private:
     int log_entry(const std::vector<std::string>& field) override;
     int write_headers(const std::vector<std::string_view>& h) override;
 
+    template <typename T>
+    void write_lines(T entry);
+
 private:
     std::string delimeter;
     std::string line_break;
+    int buffer_size;
+
+    std::string file_path;
+    std::FILE* file_ptr;
+    int file_descriptor;
+
+    FileOutputStream file;
+
+    struct File_Buffer {
+        void* buffer;
+        int size;
+    };
+
+    File_Buffer fbuf;
 
     std::string headers;
     std::vector<std::string> entries;
-    std::string file_path;
-    int file_descriptor;
-
-    const int buffer_size;
 };
 
 // PROJECT PROJECT-OBJECTIVE.

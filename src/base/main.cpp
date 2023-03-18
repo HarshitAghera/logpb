@@ -46,12 +46,15 @@ int main(int argc, char* argv[]) {
 
     std::unique_ptr<Logger> force_console_logger{new Console_Logger{}};
     cmplr.register_logger("logpb.Force", force_console_logger.get());
-    std::unique_ptr<Logger> pres_console_logger{new Console_Logger{}};
-    cmplr.register_logger("logpb.Pressure", pres_console_logger.get());
+    // std::unique_ptr<Logger> pres_console_logger{new Console_Logger{}};
+    // cmplr.register_logger("logpb.Pressure", pres_console_logger.get());
+
+    CSV_Logger force_csv_logger{"out/force.csv", ",", "\n"};
+    cmplr.register_logger("logpb.Force", &force_csv_logger);
 
     std::string bin_file{argv[2]};
 
-    write_stream_to_file(bin_file);
+    // write_stream_to_file(bin_file);
     read_stream_from_file(bin_file, cmplr);
 
     // std::fstream in(std::string{argv[3]}, std::ios::in | std::ios::binary);

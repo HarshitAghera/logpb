@@ -21,6 +21,7 @@ add_cxx_compiler_flag(-Wno-narrowing)
 add_cxx_compiler_flag(-Wno-unused-variable)
 add_cxx_compiler_flag(-Wno-missing-field-initializers)
 add_cxx_compiler_flag(-Wno-lto-type-mismatch)
+add_cxx_compiler_flag(-Wno-pointer-arith)
 
 add_cxx_compiler_flag(-fdiagnostics-color=always)
 add_cxx_compiler_flag(-fsanitize=address)

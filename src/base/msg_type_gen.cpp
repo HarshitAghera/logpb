@@ -107,7 +107,11 @@ File_Error_Collector Message_Def_Gen::import_def_file(
 }
 
 int Message_Def_Gen::refresh_registery() {
-    pkgs = {};
+    packages = {};
+    msgs = {};
+    enums = {};
+    fields = {};
+    msg_index = {};
 
     for (auto& pkg : pkgs) {
         create_enum_reg(pkg.enums);
@@ -417,6 +421,10 @@ int Message_Def_Gen::parse_message_impl(const Message& msg,
             case FieldDescriptor::Label::LABEL_REPEATED: {
                 const size_t nos = msg_reflection->FieldSize(msg, fd);
 
+                if (nos > 0) {
+                    value.append("\"");
+                }
+
                 for (size_t j{}; j < nos; ++j) {
                     switch (msg_info.fields[i].type) {
                         case FieldDescriptor::CppType::CPPTYPE_MESSAGE: {
@@ -442,6 +450,11 @@ int Message_Def_Gen::parse_message_impl(const Message& msg,
                         default: {
                         }
                     }
+                }
+
+                if (nos > 0) {
+                    value.pop_back();
+                    value.append("\"");
                 }
 
                 break;
@@ -478,7 +491,7 @@ int Message_Def_Gen::parse_message_impl(const Message& msg,
         }
 
         for (auto logger : msg_info.loggers) {
-            logger->add_elem(i, value);
+            logger->add_elem(i, std::move(value));
         }
     }
 

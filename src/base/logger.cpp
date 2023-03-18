@@ -6,7 +6,8 @@
 //#include <fmt/core.h>
 #include <fmt/ranges.h>
 
-#include "uio.h"
+#include <stdio.h>
+#include <cstring>
 
 int Logger::add_elem(const size_t col, const std::string_view data) {
     entry[col] = data;
@@ -54,31 +55,58 @@ int Console_Logger::log_entry(const std::vector<std::string>& entry) {
     return 0;
 }
 
-CSV_Logger::CSV_Logger(const std::string_view file, const std::string_view del, const std::string_view lb)
-    : file_path(file)
-    , delimeter(del)
-    , line_break(lb)
-    , buffer_size(25)
-    , file_descriptor(win_io::open(file_path.c_str(), O_WRONLY | O_TEXT))
-{
-
-
+CSV_Logger::CSV_Logger(const std::string_view fp, const std::string_view del,
+                       const std::string_view lb)
+    : delimeter(del),
+      line_break(lb),
+      buffer_size(4098),
+      file_path(fp),
+      file_ptr(fopen(file_path.c_str(), "wb")),
+      file_descriptor(fileno(file_ptr)),
+      file(file_descriptor, buffer_size) {
+    file.SetCloseOnDelete(true);
+    file.Next(&fbuf.buffer, &fbuf.size);
 }
 
-CSV_Logger::~CSV_Logger() {
-    win_io::close(file_descriptor);
-}
+CSV_Logger::~CSV_Logger() { file.BackUp(fbuf.size); }
 
 int CSV_Logger::write_headers(const std::vector<std::string_view>& h) {
-    std::string headers = fmt::format("{}{}", fmt::join(headers, delimeter), line_break);
-    int error = write(file_descriptor, headers.c_str(), headers.size());
-    return error;
+    write_lines(h);
+
+    return 0;
 }
 
 int CSV_Logger::log_entry(const std::vector<std::string>& entry) {
-    std::string line = fmt::format("{}{}", fmt::join(entry, delimeter), line_break);
-    int error = write(file_descriptor, line.c_str(), line.size());
-    return error;
+    write_lines(entry);
+
+    return 0;
+}
+
+template <typename T>
+void CSV_Logger::write_lines(T entry) {
+    auto write_string = [&](const std::string_view elem) {
+        const int elem_size = elem.size();
+
+        while (elem_size > fbuf.size) {
+            file.BackUp(fbuf.size);
+            file.Next(&fbuf.buffer, &fbuf.size);
+        }
+
+        fbuf.size -= elem_size;
+
+        std::memcpy(fbuf.buffer, elem.data(), elem_size);
+        fbuf.buffer += elem_size;
+    };
+
+    for (size_t i{}; i < entry.size(); ++i) {
+        write_string(entry[i]);
+
+        if (i != entry.size() - 1) {
+            write_string(delimeter);
+        } else {
+            write_string(line_break);
+        }
+    }
 }
 
 // PROJECT PROJECT-OBJECTIVE.
