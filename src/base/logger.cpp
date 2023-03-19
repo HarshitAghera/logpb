@@ -9,8 +9,16 @@
 #include <stdio.h>
 #include <cstring>
 
-int Logger::add_elem(const size_t col, const std::string_view data) {
+std::string& Logger::get_elem_ref(const size_t col) { return entry[col]; }
+
+int Logger::add_elem(const size_t col, const std::string& data) {
     entry[col] = data;
+
+    return 0;
+}
+
+int Logger::add_elem(const size_t col, std::string&& data) {
+    entry[col] = std::move(data);
 
     return 0;
 }
@@ -23,7 +31,7 @@ int Logger::write_entry() {
 
 int Logger::create_entry() {
     for (auto& e : entry) {
-        e = {};
+        e.clear();
     }
 
     return 0;
@@ -65,7 +73,7 @@ CSV_Logger::CSV_Logger(const std::string_view fp, const std::string_view del,
       file_descriptor(fileno(file_ptr)),
       file(file_descriptor, buffer_size) {
     file.SetCloseOnDelete(true);
-    file.Next(&fbuf.buffer, &fbuf.size);
+    file.Next(reinterpret_cast<void**>(&fbuf.buffer), &fbuf.size);
 }
 
 CSV_Logger::~CSV_Logger() { file.BackUp(fbuf.size); }
@@ -83,13 +91,13 @@ int CSV_Logger::log_entry(const std::vector<std::string>& entry) {
 }
 
 template <typename T>
-void CSV_Logger::write_lines(T entry) {
+void CSV_Logger::write_lines(const T& entry) {
     auto write_string = [&](const std::string_view elem) {
         const int elem_size = elem.size();
 
         while (elem_size > fbuf.size) {
             file.BackUp(fbuf.size);
-            file.Next(&fbuf.buffer, &fbuf.size);
+            file.Next(reinterpret_cast<void**>(&fbuf.buffer), &fbuf.size);
         }
 
         fbuf.size -= elem_size;

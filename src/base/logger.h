@@ -17,7 +17,9 @@ public:
     virtual ~Logger() = default;
 
     int set_headers(const std::vector<std::string_view>& h);
-    int add_elem(const size_t col, const std::string_view data);
+    std::string& get_elem_ref(const size_t col);
+    int add_elem(const size_t col, std::string&& data);
+    int add_elem(const size_t col, const std::string& data);
     int write_entry();
     int create_entry();
 
@@ -53,7 +55,7 @@ private:
     int write_headers(const std::vector<std::string_view>& h) override;
 
     template <typename T>
-    void write_lines(T entry);
+    void write_lines(const T& entry);
 
 private:
     std::string delimeter;
@@ -67,7 +69,7 @@ private:
     FileOutputStream file;
 
     struct File_Buffer {
-        void* buffer;
+        char* buffer;
         int size;
     };
 

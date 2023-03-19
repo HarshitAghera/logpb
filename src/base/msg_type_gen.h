@@ -52,6 +52,13 @@ public:
                                     const std::string& f_name,
                                     const Message& message);
 
+    std::vector<std::string> get_package_list();
+    std::vector<std::string> get_message_list(
+        const std::vector<std::string>& package_names);
+    std::vector<std::string> get_field_list(
+        const std::string& package_name,
+        const std::vector<std::string>& message_names);
+
 private:
     struct Enum;
     struct Msg;

@@ -350,6 +350,48 @@ void Message_Def_Gen::print_summary() {
     fmt::print("\n\n");
 }
 
+std::vector<std::string> Message_Def_Gen::get_package_list() {
+    return packages.get_key_list();
+}
+
+std::vector<std::string> Message_Def_Gen::get_message_list(
+    const std::vector<std::string>& package_names) {
+    std::vector<std::string> message_list;
+
+    for (auto& pname : package_names) {
+        auto& package = **(packages.find(pname));
+        for (auto& m : package.msgs) {
+            if (package_names.size() > 1) {
+                message_list.push_back(m.full_name);
+            } else {
+                message_list.push_back(m.name);
+            }
+        }
+    }
+
+    return message_list;
+}
+
+std::vector<std::string> Message_Def_Gen::get_field_list(
+    const std::string& package_name,
+    const std::vector<std::string>& message_names) {
+    std::vector<std::string> field_list;
+
+    for (auto& message_name : message_names) {
+        const auto& msg = **(msgs.find(package_name + message_name));
+
+        for (const auto& field : msg.fields) {
+            if (message_names.size() > 1) {
+                field_list.push_back(msg.name + field.name);
+            } else {
+                field_list.push_back(field.name);
+            }
+        }
+    }
+
+    return field_list;
+}
+
 std::vector<double> Message_Def_Gen::get_numuric(const std::string& name,
                                                  const std::string& f_name,
                                                  const Message& message) {
@@ -491,7 +533,7 @@ int Message_Def_Gen::parse_message_impl(const Message& msg,
         }
 
         for (auto logger : msg_info.loggers) {
-            logger->add_elem(i, std::move(value));
+            logger->add_elem(i, value);
         }
     }
 

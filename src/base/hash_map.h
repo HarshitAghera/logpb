@@ -14,7 +14,7 @@ public:
 
     Reference* find(const Identifier& key) const;
 
-    const std::vector<std::string>& get_key_list() { return _key_list; };
+    const std::vector<Identifier>& get_key_list() { return _key_list; };
 
     typename Underlying_Type::const_iterator begin() const { return _hash_map.cbegin(); }
 
