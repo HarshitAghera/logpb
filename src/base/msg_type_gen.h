@@ -43,7 +43,7 @@ public:
                            io::CodedInputStream& cos) const;
 
     // Register a logger for a message type.
-    int register_logger(const std::string_view msg_name, Logger* logger);
+    int register_logger(const std::string_view msg_name, Logger* logger) const;
 
     void print_data();
     void print_summary();
@@ -52,12 +52,12 @@ public:
                                     const std::string& f_name,
                                     const Message& message);
 
-    std::vector<std::string> get_package_list();
+    std::vector<std::string> get_package_list() const;
     std::vector<std::string> get_message_list(
-        const std::vector<std::string>& package_names);
+        const std::vector<std::string>& package_names) const;
     std::vector<std::string> get_field_list(
         const std::string& package_name,
-        const std::vector<std::string>& message_names);
+        const std::vector<std::string>& message_names) const;
 
 private:
     struct Enum;
@@ -99,7 +99,7 @@ private:
 
         const Descriptor* descriptor;
 
-        std::vector<Logger*> loggers;
+        mutable std::vector<Logger*> loggers;
     };
 
     struct Package {

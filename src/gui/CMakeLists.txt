@@ -17,17 +17,20 @@ set(PROJECT_SOURCES
     load_msg_defs.ui
     mainwindow.ui
     connect_window.ui
+    add_logger_window.ui
 
     # sources
     main.cpp
     mainwindow.cpp
     load_msg_defs.cpp
     connect_window.cpp
+    add_logger_window.cpp
 
     # headers
     mainwindow.h
     load_msg_defs.h
     connect_window.h
+    add_logger_window.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

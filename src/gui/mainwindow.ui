@@ -44,7 +44,7 @@
     <property name="title">
      <string>Log</string>
     </property>
-    <addaction name="actionAff"/>
+    <addaction name="actionAdd_Logger"/>
     <addaction name="actionAll"/>
    </widget>
    <widget class="QMenu" name="menuVisualize">
@@ -110,7 +110,7 @@
     <string>Disconnect</string>
    </property>
   </action>
-  <action name="actionAff">
+  <action name="actionAdd_Logger">
    <property name="text">
     <string>Add</string>
    </property>

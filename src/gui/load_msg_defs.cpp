@@ -50,4 +50,6 @@ void Load_Msg_Defs_Window::add_msg_defs() {
     }
 
     ui->id_parse_errors->setPlainText(message);
+
+    session->refresh_msg_defs();
 }

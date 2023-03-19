@@ -13,4 +13,13 @@ File_Error_Collector Session::add_msg_def(std::string file) {
 
     return error;
 }
+
+int Session::add_csv_logger(const std::string& msg_name,
+                            std::unique_ptr<CSV_Logger> logger) {
+    get_msg_defs().register_logger(msg_name, logger.get());
+
+    csv_loggers.push_back(std::move(logger));
+
+    return 0;
+}
 }  // namespace logpb

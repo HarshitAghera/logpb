@@ -107,11 +107,13 @@ File_Error_Collector Message_Def_Gen::import_def_file(
 }
 
 int Message_Def_Gen::refresh_registery() {
-    packages = {};
-    msgs = {};
-    enums = {};
-    fields = {};
-    msg_index = {};
+    // TODO-Harshit : make this function work with multiple message defs loads.
+
+    // packages = {};
+    // msgs = {};
+    // enums = {};
+    // fields = {};
+    // msg_index = {};
 
     for (auto& pkg : pkgs) {
         create_enum_reg(pkg.enums);
@@ -350,12 +352,12 @@ void Message_Def_Gen::print_summary() {
     fmt::print("\n\n");
 }
 
-std::vector<std::string> Message_Def_Gen::get_package_list() {
+std::vector<std::string> Message_Def_Gen::get_package_list() const {
     return packages.get_key_list();
 }
 
 std::vector<std::string> Message_Def_Gen::get_message_list(
-    const std::vector<std::string>& package_names) {
+    const std::vector<std::string>& package_names) const {
     std::vector<std::string> message_list;
 
     for (auto& pname : package_names) {
@@ -374,7 +376,7 @@ std::vector<std::string> Message_Def_Gen::get_message_list(
 
 std::vector<std::string> Message_Def_Gen::get_field_list(
     const std::string& package_name,
-    const std::vector<std::string>& message_names) {
+    const std::vector<std::string>& message_names) const {
     std::vector<std::string> field_list;
 
     for (auto& message_name : message_names) {
@@ -425,7 +427,7 @@ std::vector<double> Message_Def_Gen::get_numuric(const std::string& name,
 }
 
 int Message_Def_Gen::register_logger(const std::string_view msg_name,
-                                     Logger* logger) {
+                                     Logger* logger) const {
     Msg* msg = *msgs.find(std::string{msg_name});
 
     if (!msg) {

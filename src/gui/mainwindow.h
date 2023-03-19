@@ -19,6 +19,7 @@ public:
 private slots:
     void load_msg_defs();
     void create_connection();
+    void add_logger();
 
 private:
     void make_connections();

@@ -8,7 +8,14 @@
 namespace logpb {
 Stream_Parser::Stream_Parser(std::unique_ptr<ZeroCopyInputStream> is,
                              const Message_Def_Gen* defs)
-    : zcis{std::move(is)}, cis{zcis.get()}, msg_defs{defs} {}
+    : own_zcis{std::move(is)},
+      zcis{own_zcis.get()},
+      cis{zcis},
+      msg_defs{defs} {}
+
+Stream_Parser::Stream_Parser(ZeroCopyInputStream* is,
+                             const Message_Def_Gen* defs)
+    : zcis{is}, cis{zcis}, msg_defs{defs} {}
 
 Stream_Parser Stream_Parser::create_from_file(const int file_descriptor,
                                               const Message_Def_Gen* defs) {
