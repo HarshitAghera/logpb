@@ -12,7 +12,7 @@
 #ifdef _MSC_VER
 #include <google/protobuf/io/io_win32.h>
 #else
-#include <stdio.h>
+#define O_BINARY 0
 #endif
 
 
