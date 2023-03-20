@@ -46,7 +46,7 @@ void Add_Logger_Window::set_file_path() {
 
 void Add_Logger_Window::add_logger_to_session() {
     const auto fp = file_path.toUtf8();
-    const std::string_view path{fp.data(), fp.size()};
+    const std::string_view path(fp.data(), fp.size());
 
     auto logger = std::make_unique<CSV_Logger>(path, ",", "\n");
 

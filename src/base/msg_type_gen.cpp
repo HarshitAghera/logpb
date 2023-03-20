@@ -46,8 +46,9 @@ Message_Def_Gen::Message_Def_Gen(const std::vector<std::string>& files)
 
 Message_Def_Gen::Message_Def_Gen() : importer{&dst, &error_collector} {
     // mapping app directory to viratual directory
-    dst.MapPath({}, {});
+    dst.MapPath("", "");
     dst.MapPath("/", "/");
+    dst.MapPath("C:/", "C:/");
 
     dst.MapPath("nanopb.proto", "build-dir/bin/resources/nanopb.proto");
     dst.MapPath("google/protobuf/descriptor.proto",

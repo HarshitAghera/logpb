@@ -3,11 +3,23 @@
 
 #include "logger.h"
 
-//#include <fmt/core.h>
-#include <fmt/ranges.h>
+// #include <fmt/core.h>
+// #include <fmt/ranges.h>
 
-#include <stdio.h>
 #include <cstring>
+
+#include <fcntl.h>
+#ifdef _MSC_VER
+#include <google/protobuf/io/io_win32.h>
+#else
+#include <stdio.h>
+#endif
+
+
+#ifdef _WIN32
+using google::protobuf::io::win32::open;
+#endif
+
 
 std::string& Logger::get_elem_ref(const size_t col) { return entry[col]; }
 
@@ -48,7 +60,7 @@ int Logger::set_headers(const std::vector<std::string_view>& h) {
 int Console_Logger::write_headers(const std::vector<std::string_view>& h) {
     headers = h;
 
-    fmt::print("{}\n", fmt::join(headers, seperator));
+    // fmt::print("{}\n", fmt::join(headers, seperator));
 
     return 0;
 }
@@ -58,7 +70,7 @@ void Console_Logger::set_seperator(const std::string_view sep) {
 }
 
 int Console_Logger::log_entry(const std::vector<std::string>& entry) {
-    fmt::print("{}\n", fmt::join(entry, seperator));
+    // fmt::print("{}\n", fmt::join(entry, seperator));
 
     return 0;
 }
@@ -69,8 +81,8 @@ CSV_Logger::CSV_Logger(const std::string_view fp, const std::string_view del,
       line_break(lb),
       buffer_size(4098),
       file_path(fp),
-      file_ptr(fopen(file_path.c_str(), "wb")),
-      file_descriptor(fileno(file_ptr)),
+      file_ptr{},
+      file_descriptor(open(file_path.c_str(), O_WRONLY | O_BINARY)),
       file(file_descriptor, buffer_size) {
     file.SetCloseOnDelete(true);
     file.Next(reinterpret_cast<void**>(&fbuf.buffer), &fbuf.size);

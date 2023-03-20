@@ -1,7 +1,17 @@
 #include "device_connection_impl.h"
 
-#include <stdio.h>
 #include <google/protobuf/io/zero_copy_stream_impl.h>
+
+#include <fcntl.h>
+#ifdef _MSC_VER
+#include <google/protobuf/io/io_win32.h>
+#else
+#include <stdio.h>
+#endif
+
+#ifdef _WIN32
+using google::protobuf::io::win32::open;
+#endif
 
 namespace logpb {
 File_Connection::File_Connection(const int fd)
@@ -21,7 +31,6 @@ ZeroCopyInputStream* File_Connection::get_stream() {
 
 File_Connection File_Connection::create_from_path(
     const std::string_view file_name) {
-    std::FILE* fd = fopen(file_name.data(), "rb");
-    return File_Connection{fileno(fd)};
+    return File_Connection{open(file_name.data(), O_RDONLY | O_BINARY)};
 }
 }  // namespace logpb
