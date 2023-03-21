@@ -59,6 +59,10 @@ endif()
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(${PROJECT_NAME} PUBLIC "${PROJECT_NAME}-app")
 
+add_subdirectory("third-party/qwt")
+target_link_libraries(${PROJECT_NAME} PUBLIC qwt)
+# target_include_directories(${PROJECT_NAME} PUBLIC "third-party/qwt/classincludes")
+
 set_target_properties(${PROJECT_NAME} PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
