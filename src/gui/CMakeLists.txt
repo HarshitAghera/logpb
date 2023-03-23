@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.22.1)
 
 # project(gui VERSION 0.1 LANGUAGES CXX)
 
-set(CMAKE_AUTOUIC ON)
+# set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
@@ -12,25 +12,38 @@ set(CMAKE_AUTORCC ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
-set(PROJECT_SOURCES
+qt_wrap_ui(UI_HEADERS
     # ui files
     load_msg_defs.ui
     mainwindow.ui
     connect_window.ui
     add_logger_window.ui
+    basic_plot.ui
+)
 
+set(PROJECT_SOURCES
     # sources
     main.cpp
     mainwindow.cpp
     load_msg_defs.cpp
     connect_window.cpp
     add_logger_window.cpp
+    basic_plot.cpp
 
     # headers
     mainwindow.h
     load_msg_defs.h
     connect_window.h
     add_logger_window.h
+    basic_plot.h
+
+    ${UI_HEADERS}
+#    # ui files
+#    load_msg_defs.ui
+#    mainwindow.ui
+#    connect_window.ui
+#    add_logger_window.ui
+#    basic_plot.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -55,6 +68,8 @@ else()
         )
     endif()
 endif()
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(${PROJECT_NAME} PUBLIC "${PROJECT_NAME}-app")

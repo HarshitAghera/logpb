@@ -4,6 +4,7 @@
 #include "connect_window.h"
 #include "add_logger_window.h"
 #include <base/stream_parser.h>
+#include "basic_plot.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -23,6 +24,9 @@ void MainWindow::make_connections() {
     connect(ui->actionAdd_Logger, &QAction::triggered,
             this, &MainWindow::add_logger);
     // clang-format on
+
+    auto plot = new Basic_Plot{this};
+    plot->show();
 }
 
 MainWindow::~MainWindow() { delete ui; }

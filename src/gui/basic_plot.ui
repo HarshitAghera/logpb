@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Basic_Plot</class>
+ <widget class="QDockWidget" name="Basic_Plot">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>640</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="floating">
+   <bool>false</bool>
+  </property>
+  <property name="windowTitle">
+   <string>Plot</string>
+  </property>
+  <widget class="QWidget" name="dockWidgetContents">
+   <widget class="QwtPlot" name="plot">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>130</y>
+      <width>551</width>
+      <height>321</height>
+     </rect>
+    </property>
+    <property name="canvasBackground">
+     <brush brushstyle="Dense6Pattern">
+      <color alpha="255">
+       <red>100</red>
+       <green>100</green>
+       <blue>100</blue>
+      </color>
+     </brush>
+    </property>
+    <property name="autoReplot">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="properties">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>621</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Properties</string>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+    <widget class="QCheckBox" name="autoscale">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>78</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Auto-scale</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QwtPlot</class>
+   <extends>QFrame</extends>
+   <header>qwt_plot.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
