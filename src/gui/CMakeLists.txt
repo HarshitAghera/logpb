@@ -19,6 +19,7 @@ qt_wrap_ui(UI_HEADERS
     connect_window.ui
     add_logger_window.ui
     basic_plot.ui
+    add_plot_window.ui
 )
 
 set(PROJECT_SOURCES
@@ -29,6 +30,7 @@ set(PROJECT_SOURCES
     connect_window.cpp
     add_logger_window.cpp
     basic_plot.cpp
+    add_plot_window.cpp
 
     # headers
     mainwindow.h
@@ -36,6 +38,7 @@ set(PROJECT_SOURCES
     connect_window.h
     add_logger_window.h
     basic_plot.h
+    add_plot_window.h
 
     ${UI_HEADERS}
 #    # ui files

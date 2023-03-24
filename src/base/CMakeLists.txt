@@ -8,6 +8,7 @@ list(APPEND SOURCE_FILES
     parse_error.cpp
     device_connection.cpp
     device_connection_impl.cpp
+    plotter.cpp
 
     # headers
     msg_type_gen.h
@@ -17,6 +18,7 @@ list(APPEND SOURCE_FILES
     parse_error.h
     device_connection.h
     device_connection_impl.h
+    plotter.h
 )
 
 # auto generated protobuf message definitions
