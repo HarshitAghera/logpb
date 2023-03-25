@@ -1,10 +1,10 @@
 #include "mainwindow.h"
-#include "./ui_mainwindow.h"
+#include "ui_mainwindow.h"
 #include "load_msg_defs.h"
 #include "connect_window.h"
 #include "add_logger_window.h"
 #include <base/stream_parser.h>
-#include "basic_plot.h"
+#include "add_plot_window.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -23,10 +23,12 @@ void MainWindow::make_connections() {
             this, &MainWindow::create_connection);
     connect(ui->actionAdd_Logger, &QAction::triggered,
             this, &MainWindow::add_logger);
+    connect(ui->actionAdd_Plot, &QAction::triggered,
+            this, &MainWindow::add_plot);
     // clang-format on
 
-    auto plot = new Basic_Plot{this};
-    plot->show();
+    // auto plot = new Basic_Plot{this};
+    // plot->show();
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -43,8 +45,14 @@ void MainWindow::create_connection() {
     logpb::Stream_Parser parser{session.get_connection().get_stream(),
                                 &session.get_msg_defs()};
     parser.parse();
+
+    session.update_and_redraw_plots();
 }
 
 void MainWindow::add_logger() {
     int error = Add_Logger_Window::creat_and_add_logger(this, &session);
+}
+
+void MainWindow::add_plot() {
+    int error = Add_Plot_Window::create_and_add_plot(this, &session);
 }

@@ -17,28 +17,6 @@
    <string>Plot</string>
   </property>
   <widget class="QWidget" name="dockWidgetContents">
-   <widget class="QwtPlot" name="plot">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>130</y>
-      <width>551</width>
-      <height>321</height>
-     </rect>
-    </property>
-    <property name="canvasBackground">
-     <brush brushstyle="Dense6Pattern">
-      <color alpha="255">
-       <red>100</red>
-       <green>100</green>
-       <blue>100</blue>
-      </color>
-     </brush>
-    </property>
-    <property name="autoReplot">
-     <bool>false</bool>
-    </property>
-   </widget>
    <widget class="QGroupBox" name="properties">
     <property name="geometry">
      <rect>
@@ -59,7 +37,7 @@
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>78</width>
+       <width>111</width>
        <height>22</height>
       </rect>
      </property>
@@ -73,13 +51,6 @@
    </widget>
   </widget>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QwtPlot</class>
-   <extends>QFrame</extends>
-   <header>qwt_plot.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -17,9 +17,11 @@ using namespace google::protobuf;
 using namespace google::protobuf::compiler;
 
 // #include "msg_defs/msg_defs.pb.h"
-#include "logger.h"
 #include "hash_map.h"
 #include "parse_error.h"
+
+class Logger;
+class Plotter;
 
 namespace logpb {
 bool generate_rand_msgs(std::string file);
@@ -43,7 +45,8 @@ public:
                            io::CodedInputStream& cos) const;
 
     // Register a logger for a message type.
-    int register_logger(const std::string_view msg_name, Logger* logger) const;
+    int register_logger(const std::string& msg_name, Logger* logger) const;
+    int register_plotter(const std::string& field_name, Plotter* plotter) const;
 
     void print_data();
     void print_summary();
@@ -74,6 +77,8 @@ private:
         std::string type_name;
         const Msg* msg_def;
         const Enum* enum_def;
+
+        mutable std::vector<Plotter*> plotters;
     };
 
     struct Enum_Value {

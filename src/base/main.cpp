@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "msg_type_gen.h"
+#include "logger.h"
 #include "stream_parser.h"
 #include "stream_generator.h"
 #include <fmt/core.h>

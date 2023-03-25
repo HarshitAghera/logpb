@@ -1,21 +1,52 @@
 #pragma once
+#include <string>
 #include <vector>
 
-namespace logpb {
 class Plotter {
 public :
-    void insert(const float val) { data.push_back(val); };
-    std::vector<float>& container() { return data; };
+    void append(const float val) { data.push_back(val); };
+    const std::vector<float>& container() const { return data; };
 
 private :
     std::vector<float> data;
 };
 
-struct Graph {
-    Plotter x_data;
-    std::vector<Plotter> y_data;
-
-    // Plotter& x_data() { return xd; };
-    // std::vector<Plotter> y_data() { return yd; };
+struct Points {
+    const float* x_data;
+    const float* y_data;
+    int size;
 };
-}
+
+class Curve {
+public:
+    Points get_series() const;
+    Curve(const Plotter* x, const Plotter* y);
+
+private:
+    const Plotter* x_data;
+    const Plotter* y_data;
+};
+
+class Curve_Serializer {
+public:
+    Curve_Serializer(int x, int y);
+
+    void set_x(int x);
+    void set_y(int y);
+
+    Curve deserialize(const std::vector<Plotter>& plotters);
+
+private:
+    int x_index;
+    int y_index;
+};
+
+struct Plot_Info {
+    struct Curve_Info {
+        std::string x_field;
+        std::string y_field;
+        const Curve* curve;
+    };
+
+    std::vector<Curve_Info> curves;
+};

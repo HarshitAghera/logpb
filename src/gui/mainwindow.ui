@@ -51,7 +51,7 @@
     <property name="title">
      <string>Visualize</string>
     </property>
-    <addaction name="actionAdd"/>
+    <addaction name="actionAdd_Plot"/>
     <addaction name="actionAll_2"/>
    </widget>
    <widget class="QMenu" name="menuLayout">
@@ -120,7 +120,7 @@
     <string>All</string>
    </property>
   </action>
-  <action name="actionAdd">
+  <action name="actionAdd_Plot">
    <property name="text">
     <string>Add</string>
    </property>

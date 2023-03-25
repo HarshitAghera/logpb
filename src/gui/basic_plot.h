@@ -1,28 +1,53 @@
 #ifndef BASIC_PLOT_H
 #define BASIC_PLOT_H
 
-#include <QDockWidget>
+#include <memory>
 
-namespace Ui {
-class Basic_Plot;
-}
+class QWidget;
 
 class QwtPlot;
+class QwtPlotCurve;
 
-class Basic_Plot : public QDockWidget
-{
-    Q_OBJECT
+class Curve;
+class Plot_Info;
 
+class Plot_Curve {
 public:
-    void configure_plot(QwtPlot* plot);
-    explicit Basic_Plot(QWidget *parent = nullptr);
-    ~Basic_Plot();
-
+    Plot_Curve(const Curve* cd);
+    int update();
+    QwtPlotCurve* get_curve() { return curve; };
 
 private:
-    Ui::Basic_Plot *ui;
-    std::vector<float> y_data{10, 20, 30, 40, 50, 70};
-    std::vector<float> x_data{1, 2, 3, 4, 5, 6};
+    QwtPlotCurve* curve;
+    const Curve* curve_data;
+};
+
+class Plot_Curve_Factory {
+public:
+    Plot_Curve_Factory(QwtPlot* p);
+    Plot_Curve_Factory() = default;
+    Plot_Curve create(const Curve* curve);
+    void set_plot(QwtPlot* p) { plot = p; };
+
+private:
+    QwtPlot* plot;
+    int curves;
+};
+
+class Basic_Plot_Impl;
+
+class Basic_Plot {
+public:
+    explicit Basic_Plot(QWidget* parent, const Plot_Info* info);
+    ~Basic_Plot();
+    Basic_Plot(Basic_Plot&&);
+    Basic_Plot& operator=(Basic_Plot&&);
+
+    int update_and_redraw();
+
+private:
+    std::unique_ptr<Basic_Plot_Impl> pimpl;
+    // Basic_Plot_Impl* pimpl;
 };
 
 #endif // BASIC_PLOT_H

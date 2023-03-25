@@ -1,4 +1,3 @@
-// Copyright (C) 2023  Harshit Aghera
 // See end of file for extended copyright information.
 
 #include "msg_type_gen.h"
@@ -10,6 +9,9 @@
 #include <fmt/core.h>
 // #define FMT_HEADER_ONLY
 #include <fmt/format.h>
+
+#include "logger.h"
+#include "plotter.h"
 
 namespace logpb {
 // bool generate_rand_msgs(std::string file_name) {
@@ -381,7 +383,7 @@ std::vector<std::string> Message_Def_Gen::get_field_list(
     std::vector<std::string> field_list;
 
     for (auto& message_name : message_names) {
-        const auto& msg = **(msgs.find(package_name + message_name));
+        const auto& msg = **(msgs.find(package_name + "." + message_name));
 
         for (const auto& field : msg.fields) {
             if (message_names.size() > 1) {
@@ -427,11 +429,11 @@ std::vector<double> Message_Def_Gen::get_numuric(const std::string& name,
     return data;
 }
 
-int Message_Def_Gen::register_logger(const std::string_view msg_name,
+int Message_Def_Gen::register_logger(const std::string& msg_name,
                                      Logger* logger) const {
     Msg* msg = *msgs.find(std::string{msg_name});
 
-    if (!msg) {
+    if (!msg || !logger) {
         return -1;
     }
 
@@ -449,6 +451,19 @@ int Message_Def_Gen::register_logger(const std::string_view msg_name,
     return 0;
 }
 
+int Message_Def_Gen::register_plotter(const std::string& field_name,
+                                      Plotter* plotter) const {
+    const Field* field = *fields.find(field_name);
+
+    if (!field || !plotter) {
+        return -1;
+    }
+
+    field->plotters.push_back(plotter);
+
+    return 0;
+}
+
 int Message_Def_Gen::parse_message_impl(const Message& msg,
                                         const Msg& msg_info) const {
     const Reflection* msg_reflection = msg.GetReflection();
@@ -459,7 +474,8 @@ int Message_Def_Gen::parse_message_impl(const Message& msg,
 
     const size_t field_count = msg_info.fields.size();
     for (size_t i{}; i < field_count; ++i) {
-        const FieldDescriptor* fd = msg_info.fields[i].descriptor;
+        const Field& field = msg_info.fields[i];
+        const FieldDescriptor* fd = field.descriptor;
         std::string value;
 
         switch (msg_info.fields[i].label) {
@@ -487,6 +503,11 @@ int Message_Def_Gen::parse_message_impl(const Message& msg,
                         case FieldDescriptor::CppType::CPPTYPE_INT32: {
                             int32_t val =
                                 msg_reflection->GetRepeatedInt32(msg, fd, j);
+
+                            for (auto plotter : field.plotters) {
+                                plotter->append(static_cast<float>(val));
+                            }
+
                             value += fmt::format("{},", val);
 
                             break;
@@ -512,6 +533,11 @@ int Message_Def_Gen::parse_message_impl(const Message& msg,
                     switch (msg_info.fields[i].type) {
                         case FieldDescriptor::CppType::CPPTYPE_INT32: {
                             int32_t val = msg_reflection->GetInt32(msg, fd);
+
+                            for (auto plotter : field.plotters) {
+                                plotter->append(static_cast<float>(val));
+                            }
+
                             value = fmt::format("{}", val);
 
                             break;

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>887</width>
-    <height>623</height>
+    <width>743</width>
+    <height>520</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>0</y>
+     <y>10</y>
      <width>111</width>
      <height>20</height>
     </rect>
@@ -29,8 +29,8 @@
   <widget class="QDialogButtonBox" name="bb_decision">
    <property name="geometry">
     <rect>
-     <x>660</x>
-     <y>570</y>
+     <x>560</x>
+     <y>480</y>
      <width>172</width>
      <height>27</height>
     </rect>
@@ -43,104 +43,30 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>20</y>
+     <y>30</y>
      <width>161</width>
      <height>31</height>
     </rect>
    </property>
    <item>
     <property name="text">
-     <string>CSV File</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Console</string>
+     <string>Basic Plot</string>
     </property>
    </item>
   </widget>
-  <widget class="QComboBox" name="cb_package">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>230</y>
-     <width>331</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="cb_message">
-   <property name="geometry">
-    <rect>
-     <x>390</x>
-     <y>230</y>
-     <width>331</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lb_package">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>210</y>
-     <width>331</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Package</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lb_message">
-   <property name="geometry">
-    <rect>
-     <x>390</x>
-     <y>210</y>
-     <width>331</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Message</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lb_field">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>150</y>
-     <width>331</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Field</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="cb_field">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>170</y>
-     <width>331</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QGroupBox" name="groupBox">
+  <widget class="QGroupBox" name="gb_x_axis">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>60</y>
+     <y>70</y>
      <width>721</width>
-     <height>211</height>
+     <height>231</height>
     </rect>
    </property>
    <property name="title">
     <string>X axis</string>
    </property>
-   <widget class="QLabel" name="lb_field_2">
+   <widget class="QLabel" name="lb_x_type">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -153,7 +79,7 @@
      <string>Data</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="cb_field_2">
+   <widget class="QComboBox" name="cb_x_type">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -162,107 +88,41 @@
       <height>31</height>
      </rect>
     </property>
+    <item>
+     <property name="text">
+      <string>Field</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Count</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Timestamp</string>
+     </property>
+    </item>
    </widget>
   </widget>
-  <widget class="QComboBox" name="cb_package_2">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>390</y>
-     <width>331</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lb_message_2">
-   <property name="geometry">
-    <rect>
-     <x>390</x>
-     <y>370</y>
-     <width>331</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Message</string>
-   </property>
-  </widget>
-  <widget class="QGroupBox" name="groupBox_2">
+  <widget class="QGroupBox" name="gb_y_axis">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>280</y>
+     <y>320</y>
      <width>721</width>
-     <height>211</height>
+     <height>151</height>
     </rect>
    </property>
    <property name="title">
-    <string>X axis</string>
+    <string>Y axis</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="cb_field_4">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>330</y>
-     <width>331</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lb_package_2">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>370</y>
-     <width>331</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Package</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lb_field_4">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>310</y>
-     <width>331</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Field</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="cb_message_2">
-   <property name="geometry">
-    <rect>
-     <x>390</x>
-     <y>390</y>
-     <width>331</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
-  <zorder>groupBox_2</zorder>
-  <zorder>groupBox</zorder>
+  <zorder>gb_y_axis</zorder>
+  <zorder>gb_x_axis</zorder>
   <zorder>lb_type</zorder>
   <zorder>bb_decision</zorder>
   <zorder>cb_type</zorder>
-  <zorder>cb_package</zorder>
-  <zorder>cb_message</zorder>
-  <zorder>lb_package</zorder>
-  <zorder>lb_message</zorder>
-  <zorder>lb_field</zorder>
-  <zorder>cb_field</zorder>
-  <zorder>cb_package_2</zorder>
-  <zorder>lb_message_2</zorder>
-  <zorder>cb_field_4</zorder>
-  <zorder>lb_package_2</zorder>
-  <zorder>lb_field_4</zorder>
-  <zorder>cb_message_2</zorder>
  </widget>
  <resources/>
  <connections/>
