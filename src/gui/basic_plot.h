@@ -9,7 +9,7 @@ class QwtPlot;
 class QwtPlotCurve;
 
 class Curve;
-class Plot_Info;
+struct Plot_Info;
 
 class Plot_Curve {
 public:

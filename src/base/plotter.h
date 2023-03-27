@@ -14,7 +14,7 @@ private :
 struct Points {
     const float* x_data;
     const float* y_data;
-    int size;
+    size_t size;
 };
 
 class Curve {

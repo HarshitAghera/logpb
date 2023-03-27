@@ -54,5 +54,7 @@ int Session::update_and_redraw_plots() {
     for (auto& plot : plots) {
         plot.update_and_redraw();
     }
+
+    return 0;
 }
 }  // namespace logpb
