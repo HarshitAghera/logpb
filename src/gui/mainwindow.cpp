@@ -55,4 +55,6 @@ void MainWindow::add_logger() {
 
 void MainWindow::add_plot() {
     int error = Add_Plot_Window::create_and_add_plot(this, &session);
+
+    update();
 }

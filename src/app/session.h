@@ -6,6 +6,7 @@
 #include <base/plotter.h>
 #include <base/hash_map.h>
 #include <gui/basic_plot.h>
+#include <memory>
 
 class QWidget;
 
@@ -41,9 +42,9 @@ private:
     std::unique_ptr<Message_Def_Gen> msg_defs;
     std::unique_ptr<Device_Connection> connection;
     std::vector<std::unique_ptr<CSV_Logger>> csv_loggers;
-    std::vector<Plotter> plotters;
+    std::vector<std::unique_ptr<Plotter>> plotters;
     S_Container<std::string, const int> plotter_registery;
-    std::vector<Curve> curves;
+    std::vector<std::unique_ptr<Curve>> curves;
     std::vector<Curve_Serializer> curve_serializers;
     std::vector<Basic_Plot> plots;
 

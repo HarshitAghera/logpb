@@ -11,6 +11,6 @@ Points Curve::get_series() const {
 
 Curve_Serializer::Curve_Serializer(int x, int y) : x_index{x}, y_index{y} {}
 
-Curve Curve_Serializer::deserialize(const std::vector<Plotter>& plotter) {
-    return Curve{&plotter[x_index], &plotter[y_index]};
+Curve Curve_Serializer::deserialize(const std::vector<std::unique_ptr<Plotter>>& plotters) {
+    return Curve{plotters[x_index].get(), plotters[y_index].get()};
 }

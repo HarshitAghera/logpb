@@ -4,6 +4,7 @@
 #include "qwt_plot_curve.h"
 #include "ui_basic_plot.h"
 
+#include <QMainWindow>
 #include <QDockWidget>
 
 #include <QwtPlotZoomer>
@@ -105,6 +106,7 @@ Plot_Curve Plot_Curve_Factory::create(const Curve* c) {
 Basic_Plot_Impl::Basic_Plot_Impl(QWidget* parent, const Plot_Info* info)
     : QDockWidget(parent), ui(new Ui::Basic_Plot), plot_info{info} {
     ui->setupUi(this);
+    static_cast<QMainWindow*>(parent)->addDockWidget(Qt::RightDockWidgetArea, this);
     configure_plot();
 }
 

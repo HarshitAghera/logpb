@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <memory>
 
 class Plotter {
 public :
@@ -34,7 +35,7 @@ public:
     void set_x(int x);
     void set_y(int y);
 
-    Curve deserialize(const std::vector<Plotter>& plotters);
+    Curve deserialize(const std::vector<std::unique_ptr<Plotter>>& plotters);
 
 private:
     int x_index;

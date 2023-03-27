@@ -31,8 +31,8 @@ int Session::add_numeric_plotter(Plot_Info plot, QWidget* parent) {
             if (plot_index) {
                 return *plot_index;
             } else {
-                plotters.push_back({});
-                msg_defs->register_plotter(field, &plotters.back());
+                plotters.push_back(std::make_unique<Plotter>());
+                msg_defs->register_plotter(field, plotters.back().get());
 
                 return plotters.size() - 1;
             }
@@ -41,8 +41,8 @@ int Session::add_numeric_plotter(Plot_Info plot, QWidget* parent) {
         curve_serializers.push_back(Curve_Serializer{
             add_plotter(curve.x_field), add_plotter(curve.y_field)});
 
-        curves.push_back(curve_serializers.back().deserialize(plotters));
-        curve.curve = &curves.back();
+        curves.push_back(std::make_unique<Curve>(curve_serializers.back().deserialize(plotters)));
+        curve.curve = curves.back().get();
     }
 
     plots.push_back(Basic_Plot{parent, &plot});
