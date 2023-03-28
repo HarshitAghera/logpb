@@ -3,6 +3,7 @@
 
 #include <QFileDialog>
 #include <app/session.h>
+#include <base/msg_type_gen.h>
 #include <base/logger.h>
 
 Add_Logger_Window::Add_Logger_Window(QWidget* parent, logpb::Session* s)

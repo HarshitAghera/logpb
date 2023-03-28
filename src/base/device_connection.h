@@ -13,7 +13,8 @@ using namespace google::protobuf::io;
 namespace logpb {
 class Device_Connection {
 public:
-    virtual ~Device_Connection() = default;
+    Device_Connection();
+    virtual ~Device_Connection();
     virtual const char* name() = 0;
     virtual ZeroCopyInputStream* get_stream() = 0;
 };

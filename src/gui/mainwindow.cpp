@@ -4,6 +4,7 @@
 #include "connect_window.h"
 #include "add_logger_window.h"
 #include <base/stream_parser.h>
+#include <base/device_connection.h>
 #include "add_plot_window.h"
 
 MainWindow::MainWindow(QWidget *parent)

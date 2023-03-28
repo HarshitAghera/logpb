@@ -1,11 +1,23 @@
 #include "session.h"
 
+#include <base/msg_type_gen.h>
+#include <base/device_connection.h>
+#include <base/logger.h>
+
 namespace logpb {
 Session::Session() : msg_defs{new Message_Def_Gen} {}
+
+Session::~Session() = default;
 
 void Session::reset_msg_defs() {
     msg_defs = std::make_unique<Message_Def_Gen>();
 }
+
+void Session::set_connection(std::unique_ptr<Device_Connection> con) {
+    connection = std::move(con);
+}
+
+void Session::refresh_msg_defs() { msg_defs->refresh_registery(); };
 
 File_Error_Collector Session::add_msg_def(std::string file) {
     File_Error_Collector error = msg_defs->import_def_file(file);
@@ -23,7 +35,7 @@ int Session::add_csv_logger(const std::string& msg_name,
     return 0;
 }
 
-int Session::add_numeric_plotter(Plot_Info plot, QWidget* parent) {
+int Session::add_numeric_plotter(Plot_Info& plot, QWidget* parent) {
     for (auto& curve : plot.curves) {
         auto add_plotter = [&](const std::string& field) -> int {
             const int* plot_index = plotter_registery.find(field);

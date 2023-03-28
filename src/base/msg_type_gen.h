@@ -7,7 +7,6 @@
 #include <string>
 #include <string_view>
 #include <utility>
-#include <fstream>
 
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/dynamic_message.h>

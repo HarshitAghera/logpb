@@ -2,6 +2,7 @@
 #include "ui_add_plot_window.h"
 #include "msg_field_selection.h"
 #include <app/session.h>
+#include <base/Plotter.h>
 
 Add_Plot_Window::Add_Plot_Window(QWidget* parent, logpb::Session* session)
     : QDialog(parent),
@@ -44,9 +45,9 @@ int Add_Plot_Window::create_and_add_plot(QWidget* parent,
 }
 
 void Add_Plot_Window::add_plot_to_session() {
-    session->add_numeric_plotter(
-        Plot_Info{.curves{{fields[0]->get_field(), fields[1]->get_field()}}},
-        parent);
+    Plot_Info plot_info{.curves{{fields[0]->get_field(), fields[1]->get_field()}}};
+
+    session->add_numeric_plotter(plot_info, parent);
 
     accept();
 }
