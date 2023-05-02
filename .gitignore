@@ -4,4 +4,4 @@ CMakeLists.txt.user
 temp/**
 .vscode/**
 .cache/**
-src/gui/third-party/qwt/build/**
+src/gui/third-party/qwt/build*/**
