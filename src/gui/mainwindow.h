@@ -16,6 +16,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void add_plot_to_cs(QWidget* plot);
+
 private slots:
     void load_msg_defs();
     void create_connection();

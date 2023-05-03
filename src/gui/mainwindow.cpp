@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "qwidget.h"
 #include "ui_mainwindow.h"
 #include "load_msg_defs.h"
 #include "connect_window.h"
@@ -34,6 +35,9 @@ void MainWindow::make_connections() {
 
 MainWindow::~MainWindow() { delete ui; }
 
+void MainWindow::add_plot_to_cs(QWidget* plot) {
+    QGraphicsProxyWidget* proxy = ui->cs_graphics_view->scene()->addWidget(plot);
+}
 void MainWindow::load_msg_defs() {
     // open a sub-window
     Load_Msg_Defs_Window connect_window{this, &session};
