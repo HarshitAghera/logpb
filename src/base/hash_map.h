@@ -16,9 +16,13 @@ public:
 
     const std::vector<Identifier>& get_key_list() const { return _key_list; };
 
-    typename Underlying_Type::const_iterator begin() const { return _hash_map.cbegin(); }
+    typename Underlying_Type::const_iterator begin() const {
+        return _hash_map.cbegin();
+    }
 
-    typename Underlying_Type::const_iterator end() const { return _hash_map.cend(); }
+    typename Underlying_Type::const_iterator end() const {
+        return _hash_map.cend();
+    }
 
 private:
     Underlying_Type _hash_map;

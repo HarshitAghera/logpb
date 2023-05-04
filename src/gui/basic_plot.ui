@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>Basic_Plot</class>
- <widget class="QDockWidget" name="Basic_Plot">
+ <widget class="QFrame" name="Basic_Plot">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -10,44 +10,39 @@
     <height>480</height>
    </rect>
   </property>
-  <property name="floating">
-   <bool>false</bool>
-  </property>
   <property name="windowTitle">
    <string>Plot</string>
   </property>
-  <widget class="QWidget" name="dockWidgetContents">
-   <widget class="QGroupBox" name="properties">
+  <widget class="QGroupBox" name="properties">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>621</width>
+     <height>111</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Properties</string>
+   </property>
+   <property name="flat">
+    <bool>false</bool>
+   </property>
+   <widget class="QCheckBox" name="autoscale">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>0</y>
-      <width>621</width>
-      <height>111</height>
+      <y>30</y>
+      <width>111</width>
+      <height>22</height>
      </rect>
     </property>
-    <property name="title">
-     <string>Properties</string>
+    <property name="text">
+     <string>Auto-scale</string>
     </property>
-    <property name="flat">
-     <bool>false</bool>
+    <property name="checked">
+     <bool>true</bool>
     </property>
-    <widget class="QCheckBox" name="autoscale">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>111</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Auto-scale</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
    </widget>
   </widget>
  </widget>

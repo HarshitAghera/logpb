@@ -5,17 +5,14 @@
 
 #include <memory>
 
-Connect_Window::Connect_Window(QWidget *parent)
+Connect_Window::Connect_Window(QWidget* parent)
     : QDialog(parent), ui(new Ui::Connect_Window) {
     ui->setupUi(this);
 
     make_qt_ss_connections();
 }
 
-Connect_Window::~Connect_Window()
-{
-    delete ui;
-}
+Connect_Window::~Connect_Window() { delete ui; }
 
 void Connect_Window::make_qt_ss_connections() {
     // clang-format off
@@ -38,7 +35,8 @@ void Connect_Window::create_file_connection() {
         logpb::File_Connection::create_from_path(file_name.toStdString()));
 }
 
-std::unique_ptr<logpb::Device_Connection> Connect_Window::create_connection(QWidget* parent) {
+std::unique_ptr<logpb::Device_Connection> Connect_Window::create_connection(
+    QWidget* parent) {
     Connect_Window con_win{parent};
     con_win.exec();
 

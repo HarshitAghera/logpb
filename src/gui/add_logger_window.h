@@ -12,8 +12,7 @@ namespace logpb {
 class Session;
 }
 
-class Add_Logger_Window : public QDialog
-{
+class Add_Logger_Window : public QDialog {
     Q_OBJECT
 
 public:
@@ -30,7 +29,7 @@ private slots:
     void refresh_message_list(int index);
 
 private:
-    Ui::Add_Logger_Window *ui;
+    Ui::Add_Logger_Window* ui;
     logpb::Session* session;
 
     QString file_path;
@@ -39,4 +38,4 @@ private:
     std::vector<std::string> msgs;
 };
 
-#endif // ADD_LOGGER_WINDOW_H
+#endif  // ADD_LOGGER_WINDOW_H

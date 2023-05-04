@@ -30,7 +30,7 @@ public:
     int add_csv_logger(const std::string& msg_name,
                        std::unique_ptr<CSV_Logger> logger);
 
-    int add_numeric_plotter(Plot_Info& plot, QWidget* parent);
+    QWidget* add_numeric_plotter(Plot_Info& plot, QWidget* parent);
 
     int update_and_redraw_plots();
 

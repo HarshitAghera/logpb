@@ -11,8 +11,7 @@ namespace logpb {
 class Device_Connection;
 }
 
-class Connect_Window : public QDialog
-{
+class Connect_Window : public QDialog {
     Q_OBJECT
 
 private:
@@ -20,7 +19,8 @@ private:
     ~Connect_Window();
 
 public:
-    static std::unique_ptr<logpb::Device_Connection> create_connection(QWidget* parent);
+    static std::unique_ptr<logpb::Device_Connection> create_connection(
+        QWidget *parent);
 
     // private slots:
 private:
@@ -34,4 +34,4 @@ private:
     std::unique_ptr<logpb::Device_Connection> connection;
 };
 
-#endif // CONNECT_WINDOW_H
+#endif  // CONNECT_WINDOW_H

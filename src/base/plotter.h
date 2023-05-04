@@ -4,11 +4,11 @@
 #include <memory>
 
 class Plotter {
-public :
+public:
     void append(const float val) { data.push_back(val); };
     const std::vector<float>& container() const { return data; };
 
-private :
+private:
     std::vector<float> data;
 };
 

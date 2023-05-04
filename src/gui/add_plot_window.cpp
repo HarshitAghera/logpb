@@ -31,23 +31,21 @@ Add_Plot_Window::Add_Plot_Window(QWidget* parent, logpb::Session* session)
     make_connections();
 }
 
-Add_Plot_Window::~Add_Plot_Window()
-{
-    delete ui;
-}
+Add_Plot_Window::~Add_Plot_Window() { delete ui; }
 
-int Add_Plot_Window::create_and_add_plot(QWidget* parent,
-                                         logpb::Session* session) {
+QWidget* Add_Plot_Window::create_and_add_plot(QWidget* parent,
+                                              logpb::Session* session) {
     Add_Plot_Window plot_window(parent, session);
     plot_window.exec();
 
-    return 0;
+    return plot_window.created_plot;
 }
 
 void Add_Plot_Window::add_plot_to_session() {
-    Plot_Info plot_info{.curves{{fields[0]->get_field(), fields[1]->get_field()}}};
+    Plot_Info plot_info{
+        .curves{{fields[0]->get_field(), fields[1]->get_field()}}};
 
-    session->add_numeric_plotter(plot_info, parent);
+    created_plot = session->add_numeric_plotter(plot_info, parent);
 
     accept();
 }

@@ -40,7 +40,7 @@ void set_interaction_policy(QwtPlotCanvas* canvas) {
 }
 }  // namespace
 
-class Basic_Plot_Impl : public QDockWidget {
+class Basic_Plot_Impl : public QFrame {
     Q_OBJECT
 
 public:
@@ -70,6 +70,8 @@ Basic_Plot& Basic_Plot::operator=(Basic_Plot&&) = default;
 
 int Basic_Plot::update_and_redraw() { return pimpl->update_and_redraw(); }
 
+QWidget* Basic_Plot::get_plot_widget() { return pimpl.get(); }
+
 Plot_Curve::Plot_Curve(const Curve* cd)
     : curve{new QwtPlotCurve{}}, curve_data{cd} {}
 
@@ -91,7 +93,7 @@ Plot_Curve Plot_Curve_Factory::create(const Curve* c) {
     curve->setPen(QColor{Qt::blue}, 2, Qt::PenStyle::SolidLine);
 
     auto symbol = new QwtSymbol{QwtSymbol::Style::Hexagon, QColor{Qt::black},
-                                QColor{Qt::red}, QSize{20, 20}};
+                                QColor{Qt::red}, QSize{4, 4}};
     curve->setSymbol(symbol);
 
     curve->setStyle(QwtPlotCurve::CurveStyle::Lines);
@@ -104,14 +106,15 @@ Plot_Curve Plot_Curve_Factory::create(const Curve* c) {
 }
 
 Basic_Plot_Impl::Basic_Plot_Impl(QWidget* parent, const Plot_Info* info)
-    : QDockWidget(parent), ui(new Ui::Basic_Plot), plot_info{info} {
+    : QFrame(), ui(new Ui::Basic_Plot), plot_info{info} {
     ui->setupUi(this);
-    static_cast<QMainWindow*>(parent)->addDockWidget(Qt::RightDockWidgetArea, this);
+    // static_cast<QMainWindow*>(parent)->addDockWidget(Qt::RightDockWidgetArea,
+    // this);
     configure_plot();
 }
 
 void Basic_Plot_Impl::configure_plot() {
-    plot = new QwtPlot(ui->dockWidgetContents);
+    plot = new QwtPlot(this);
 
     curve_factory.set_plot(plot);
 

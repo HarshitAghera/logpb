@@ -5,18 +5,19 @@
 #include <app/session.h>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui {
+class MainWindow;
+}
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void add_plot_to_cs(QWidget* plot);
+    void add_plot_to_cs(QWidget *plot);
 
 private slots:
     void load_msg_defs();
@@ -31,4 +32,4 @@ private:
     Ui::MainWindow *ui;
     logpb::Session session;
 };
-#endif // MAINWINDOW_H
+#endif  // MAINWINDOW_H

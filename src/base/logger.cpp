@@ -15,11 +15,9 @@
 #define O_BINARY 0
 #endif
 
-
 #ifdef _WIN32
 using google::protobuf::io::win32::open;
 #endif
-
 
 std::string& Logger::get_elem_ref(const size_t col) { return entry[col]; }
 

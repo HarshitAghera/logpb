@@ -20,10 +20,7 @@ Add_Logger_Window::Add_Logger_Window(QWidget* parent, logpb::Session* s)
     make_connections();
 }
 
-Add_Logger_Window::~Add_Logger_Window()
-{
-    delete ui;
-}
+Add_Logger_Window::~Add_Logger_Window() { delete ui; }
 
 void Add_Logger_Window::make_connections() {
     // clang-format off

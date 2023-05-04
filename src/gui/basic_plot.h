@@ -44,10 +44,11 @@ public:
     Basic_Plot& operator=(Basic_Plot&&);
 
     int update_and_redraw();
+    QWidget* get_plot_widget();
 
 private:
     std::unique_ptr<Basic_Plot_Impl> pimpl;
     // Basic_Plot_Impl* pimpl;
 };
 
-#endif // BASIC_PLOT_H
+#endif  // BASIC_PLOT_H

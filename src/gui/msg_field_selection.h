@@ -29,7 +29,7 @@ private:
     void refresh_field_list(int index);
 
 private:
-    Ui::Msg_Field_Selection *ui;
+    Ui::Msg_Field_Selection* ui;
     const logpb::Message_Def_Gen* msg_defs;
 
     std::vector<std::string> pkgs;
@@ -37,4 +37,4 @@ private:
     std::vector<std::string> fields;
 };
 
-#endif // MSG_FIELD_SELECTION_H
+#endif  // MSG_FIELD_SELECTION_H

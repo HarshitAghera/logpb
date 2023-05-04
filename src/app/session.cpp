@@ -35,7 +35,7 @@ int Session::add_csv_logger(const std::string& msg_name,
     return 0;
 }
 
-int Session::add_numeric_plotter(Plot_Info& plot, QWidget* parent) {
+QWidget* Session::add_numeric_plotter(Plot_Info& plot, QWidget* parent) {
     for (auto& curve : plot.curves) {
         auto add_plotter = [&](const std::string& field) -> int {
             const int* plot_index = plotter_registery.find(field);
@@ -53,13 +53,14 @@ int Session::add_numeric_plotter(Plot_Info& plot, QWidget* parent) {
         curve_serializers.push_back(Curve_Serializer{
             add_plotter(curve.x_field), add_plotter(curve.y_field)});
 
-        curves.push_back(std::make_unique<Curve>(curve_serializers.back().deserialize(plotters)));
+        curves.push_back(std::make_unique<Curve>(
+            curve_serializers.back().deserialize(plotters)));
         curve.curve = curves.back().get();
     }
 
     plots.push_back(Basic_Plot{parent, &plot});
 
-    return 0;
+    return plots.back().get_plot_widget();
 }
 
 int Session::update_and_redraw_plots() {
