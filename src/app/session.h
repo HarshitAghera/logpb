@@ -43,11 +43,15 @@ public:
 private:
     std::unique_ptr<Message_Def_Gen> msg_defs;
     std::unique_ptr<Device_Connection> connection;
+
     std::vector<std::unique_ptr<CSV_Logger>> csv_loggers;
+
     std::vector<std::unique_ptr<Plotter>> plotters;
     S_Container<std::string, const int> plotter_registery;
+
     std::vector<std::unique_ptr<Curve>> curves;
     std::vector<Curve_Serializer> curve_serializers;
+
     std::vector<Basic_Plot> plots;
 
     std::vector<std::string> def_files;

@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+
+package logpb;
+
+message CSV_Logger {
+    optional string msg_name;
+    optional string file_path;
+    optional string delimeter;
+    optional string line_break;
+}
+
+message Plotter {
+    optional string field_name;
+}
+
+message Curves {
+    optional int32 x_index;
+    optional int32 y_index;
+}
+
+message Basic_Plot {
+    optional int32 curve_index;
+}
+
+    
+message Session {
+    repeated string def_files;
+    optional string file_connection;
+
+    optional string com_connection;
+
+    repeated CSV_Logger loggers;
+
+    repeated Plotter plotters;
+    repeated Curves curves;
+    repeated Basic_Plot basic_plots;
+}
