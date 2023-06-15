@@ -1,0 +1,18 @@
+[message_definitions]
+def_files = ["filepath1"]
+
+[devices_connections]
+file_connection = ["filepath"]
+com_connection = ["comport"]
+
+[csv_loggers]
+csv_loggers = [ ["msg_name", "file_path", "delimeter", "line_break"] ]
+
+[plotters]
+numeric_plotters = [ ["field_name"] ]
+
+[curves]
+2d_curves = [ [0, 1] ]
+
+[plots]
+basic_plots = [ [0, 2] ]

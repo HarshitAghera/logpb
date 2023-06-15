@@ -1,5 +1,6 @@
 [requires]
 fmt/9.1.0
+tomlplusplus/3.3.0
 
 [generators]
 cmake
