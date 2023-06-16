@@ -35,7 +35,7 @@ int Session::add_csv_logger(const std::string& msg_name,
     return 0;
 }
 
-QWidget* Session::add_numeric_plotter(Plot_Info& plot, QWidget* parent) {
+void Session::add_numeric_plotter(Plot_Info& plot, QWidget* parent) {
     for (auto& curve : plot.curves) {
         auto add_plotter = [&](const std::string& field) -> int {
             const int* plot_index = plotter_registery.find(field);
@@ -58,16 +58,9 @@ QWidget* Session::add_numeric_plotter(Plot_Info& plot, QWidget* parent) {
         curve.curve = curves.back().get();
     }
 
-    plots.push_back(Basic_Plot{parent, &plot});
+    plots.push_back(plot);
 
-    return plots.back().get_plot_widget();
+    // return plots.back().get_plot_widget();
 }
 
-int Session::update_and_redraw_plots() {
-    for (auto& plot : plots) {
-        plot.update_and_redraw();
-    }
-
-    return 0;
-}
 }  // namespace logpb

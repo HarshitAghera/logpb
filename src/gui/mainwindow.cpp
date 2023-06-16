@@ -5,6 +5,7 @@
 #include "load_msg_defs.h"
 #include "connect_window.h"
 #include "add_logger_window.h"
+#include "basic_plot.h"
 #include <stream_parser.h>
 #include <device_connection.h>
 #include "add_plot_window.h"
@@ -81,7 +82,13 @@ void MainWindow::create_connection() {
                                 &session.get_msg_defs()};
     parser.parse();
 
-    session.update_and_redraw_plots();
+    update_and_redraw_basic_plots();
+}
+
+void MainWindow::update_and_redraw_basic_plots() {
+    for (auto& plot : basic_plots) {
+        plot->update_and_redraw();
+    }
 }
 
 void MainWindow::add_logger() {
@@ -89,9 +96,11 @@ void MainWindow::add_logger() {
 }
 
 void MainWindow::add_plot() {
-    QWidget* plot = Add_Plot_Window::create_and_add_plot(this, &session);
+    auto plot = Add_Plot_Window::create_and_add_plot(this, &session);
 
-    add_plot_to_cs(plot);
+    add_plot_to_cs(plot->get_plot_widget());
+
+    basic_plots.push_back(std::move(plot));
 
     update();
 }

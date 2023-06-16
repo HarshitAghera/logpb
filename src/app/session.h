@@ -3,7 +3,6 @@
 #include <parse_error.h>
 #include <hash_map.h>
 #include <plotter.h>
-#include "../gui/basic_plot.h"
 #include <memory>
 
 class QWidget;
@@ -30,9 +29,7 @@ public:
     int add_csv_logger(const std::string& msg_name,
                        std::unique_ptr<CSV_Logger> logger);
 
-    QWidget* add_numeric_plotter(Plot_Info& plot, QWidget* parent);
-
-    int update_and_redraw_plots();
+    void add_numeric_plotter(Plot_Info& plot, QWidget* parent);
 
     void reset_msg_defs();
 
@@ -52,7 +49,7 @@ private:
     std::vector<std::unique_ptr<Curve>> curves;
     std::vector<Curve_Serializer> curve_serializers;
 
-    std::vector<Basic_Plot> plots;
+    std::vector<Plot_Info> plots;
 
     std::vector<std::string> def_files;
 };

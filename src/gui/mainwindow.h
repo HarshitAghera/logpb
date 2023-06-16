@@ -10,6 +10,8 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
+class Basic_Plot;
+
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
@@ -27,9 +29,12 @@ private slots:
 
 private:
     void make_connections();
+    void update_and_redraw_basic_plots();
 
 private:
     Ui::MainWindow *ui;
     logpb::Session session;
+
+    std::vector<std::unique_ptr<Basic_Plot>> basic_plots;
 };
 #endif  // MAINWINDOW_H

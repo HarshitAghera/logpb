@@ -1,6 +1,7 @@
 #ifndef ADD_PLOT_WINDOW_H
 #define ADD_PLOT_WINDOW_H
 
+#include <memory>
 #include <QDialog>
 #include "qwidget.h"
 
@@ -12,6 +13,7 @@ namespace logpb {
 class Session;
 }
 
+class Basic_Plot;
 class Msg_Field_Selection;
 
 class Add_Plot_Window : public QDialog {
@@ -22,8 +24,8 @@ public:
     ~Add_Plot_Window();
 
     // static int create_and_add_plot(QWidget* parent, logpb::Session* session);
-    static QWidget* create_and_add_plot(QWidget* parent,
-                                        logpb::Session* session);
+    static std::unique_ptr<Basic_Plot> create_and_add_plot(
+        QWidget* parent, logpb::Session* session);
 
     void make_connections();
 
@@ -34,7 +36,7 @@ private:
     Ui::Add_Plot_Window* ui;
     QWidget* parent;
     logpb::Session* session;
-    QWidget* created_plot;
+    std::unique_ptr<Basic_Plot> created_plot;
 
     std::vector<Msg_Field_Selection*> fields;
 };
