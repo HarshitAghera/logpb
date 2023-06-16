@@ -1,7 +1,7 @@
 #include "connect_window.h"
 #include "ui_connect_window.h"
 #include <QFileDialog>
-#include <base/device_connection_impl.h>
+#include <device_connection_impl.h>
 
 #include <memory>
 

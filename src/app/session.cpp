@@ -1,8 +1,8 @@
 #include "session.h"
 
-#include <base/msg_type_gen.h>
-#include <base/device_connection.h>
-#include <base/logger.h>
+#include <msg_type_gen.h>
+#include <device_connection.h>
+#include <logger.h>
 
 namespace logpb {
 Session::Session() : msg_defs{new Message_Def_Gen} {}

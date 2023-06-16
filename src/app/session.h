@@ -1,9 +1,9 @@
 #pragma once
 
-#include <base/parse_error.h>
-#include <base/hash_map.h>
-#include <base/plotter.h>
-#include <gui/basic_plot.h>
+#include <parse_error.h>
+#include <hash_map.h>
+#include <plotter.h>
+#include "../gui/basic_plot.h"
 #include <memory>
 
 class QWidget;

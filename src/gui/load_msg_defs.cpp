@@ -1,8 +1,8 @@
 #include "load_msg_defs.h"
 #include "ui_load_msg_defs.h"
 #include <QFileDialog>
-#include "app/session.h"
-#include <base/msg_type_gen.h>
+#include "session.h"
+#include <msg_type_gen.h>
 
 Load_Msg_Defs_Window::Load_Msg_Defs_Window(QWidget* parent, logpb::Session* s)
     : QDialog(parent), ui(new Ui::Load_Msg_Defs_Window), session{s} {

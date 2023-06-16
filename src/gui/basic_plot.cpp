@@ -20,7 +20,7 @@
 #include <QwtScaleDraw>
 #include <QwtPlotRenderer>
 
-#include <base/plotter.h>
+#include <plotter.h>
 
 namespace Ui {
 class Basic_Plot;

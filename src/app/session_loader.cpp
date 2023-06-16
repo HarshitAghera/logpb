@@ -5,8 +5,7 @@
 
 namespace logpb {
 
-int save_session(std::string& file_path, logpb::Session& session) {
-
+int save_session(const std::string& file_path, const logpb::Session& session) {
     auto session_template = toml::parse_file(file_path);
 
     std::cout << session_template << '\n';

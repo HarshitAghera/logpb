@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <app/session.h>
+#include <session.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

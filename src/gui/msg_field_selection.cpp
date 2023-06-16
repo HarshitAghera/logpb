@@ -1,6 +1,6 @@
 #include "msg_field_selection.h"
 #include "ui_msg_field_selection.h"
-#include <base/msg_type_gen.h>
+#include <msg_type_gen.h>
 
 Msg_Field_Selection::Msg_Field_Selection(QWidget* parent,
                                          const logpb::Message_Def_Gen* msg_defs)

@@ -5,8 +5,8 @@
 #include "load_msg_defs.h"
 #include "connect_window.h"
 #include "add_logger_window.h"
-#include <base/stream_parser.h>
-#include <base/device_connection.h>
+#include <stream_parser.h>
+#include <device_connection.h>
 #include "add_plot_window.h"
 
 #include <QGraphicsItem>

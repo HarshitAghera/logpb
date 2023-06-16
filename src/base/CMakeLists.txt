@@ -47,7 +47,7 @@ set(PROJECT_LIB "${PROJECT_NAME}-lib")
 add_library(${PROJECT_LIB} ${SOURCE_FILES})
 target_link_libraries(${PROJECT_LIB} ${CONAN_LIBS})
 target_link_libraries(${PROJECT_LIB} libprotobuf)
-target_include_directories(${PROJECT_LIB} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${PROJECT_LIB} PUBLIC ${CMAKE_CURRENT_LIST_DIR})
 
 set(PROJECT_NAME_BASE "${PROJECT_NAME}-base")
 add_executable(${PROJECT_NAME_BASE} main.cpp) 

@@ -1,8 +1,8 @@
 #include "add_plot_window.h"
 #include "ui_add_plot_window.h"
 #include "msg_field_selection.h"
-#include <app/session.h>
-#include <base/plotter.h>
+#include <session.h>
+#include <plotter.h>
 
 Add_Plot_Window::Add_Plot_Window(QWidget* parent, logpb::Session* session)
     : QDialog(parent),

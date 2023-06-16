@@ -5,6 +5,5 @@
 namespace logpb {
 class Session;
 
-int save_session(std::string& file_path, logpb::Session& session);
-
+int save_session(const std::string& file_path, const logpb::Session& session);
 }

@@ -2,9 +2,9 @@
 #include "ui_add_logger_window.h"
 
 #include <QFileDialog>
-#include <app/session.h>
-#include <base/msg_type_gen.h>
-#include <base/logger.h>
+#include <session.h>
+#include <msg_type_gen.h>
+#include <logger.h>
 
 Add_Logger_Window::Add_Logger_Window(QWidget* parent, logpb::Session* s)
     : QDialog(parent), ui(new Ui::Add_Logger_Window), session(s) {
