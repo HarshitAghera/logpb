@@ -79,6 +79,13 @@ private:
     std::vector<std::string> entries;
 };
 
+struct CSV_Logger_Info {
+    std::string msg_name;
+    std::string file_path;
+    std::string del;
+    std::string lb;
+};
+
 // PROJECT PROJECT-OBJECTIVE.
 // Copyright (C) 2023  Harshit Aghera
 //

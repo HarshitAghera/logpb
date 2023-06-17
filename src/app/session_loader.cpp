@@ -5,11 +5,18 @@
 
 namespace logpb {
 
-int save_session(const std::string& file_path, const logpb::Session& session) {
-    auto session_template = toml::parse_file(file_path);
+int Session_Serializer::serialize(const Session& session) {
+    toml::table table;
 
-    std::cout << session_template << '\n';
+    toml::array def_files;
+    def_files.insert(def_files.begin(), session.def_files.begin(),
+                     session.def_files.end());
+    toml::table def_table;
+    def_table.emplace(DEF_FILE, std::move(def_files));
+    table.emplace(MSG_DEF_TABLE, std::move(def_table));
 
+    std::cout << table << '\n';
     return 0;
 }
-}
+
+}  // namespace logpb

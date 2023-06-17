@@ -46,11 +46,10 @@ void Add_Logger_Window::add_logger_to_session() {
     const auto fp = file_path.toUtf8();
     const std::string_view path(fp.data(), fp.size());
 
-    auto logger = std::make_unique<CSV_Logger>(path, ",", "\n");
-
     auto msg_name = pkgs[ui->cb_package->currentIndex()] + "." +
                     msgs[ui->cb_message->currentIndex()];
-    session->add_csv_logger(msg_name, std::move(logger));
+
+    session->add_csv_logger(msg_name, path, ",", "\n");
     accept();
 }
 

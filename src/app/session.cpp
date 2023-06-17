@@ -4,6 +4,8 @@
 #include <device_connection.h>
 #include <logger.h>
 
+#include <toml++/toml.h>
+
 namespace logpb {
 Session::Session() : msg_defs{new Message_Def_Gen} {}
 
@@ -27,10 +29,18 @@ File_Error_Collector Session::add_msg_def(std::string file) {
 }
 
 int Session::add_csv_logger(const std::string& msg_name,
-                            std::unique_ptr<CSV_Logger> logger) {
-    get_msg_defs().register_logger(msg_name, logger.get());
+                            const std::string_view file,
+                            const std::string_view del,
+                            const std::string_view lb) {
+    csv_logger_infos.emplace_back(
+        CSV_Logger_Info{.msg_name{msg_name},
+                        .file_path = std::string{file},
+                        .del = std::string{del},
+                        .lb = std::string{lb}});
 
-    csv_loggers.push_back(std::move(logger));
+    csv_loggers.emplace_back(std::make_unique<CSV_Logger>(file, del, lb));
+
+    get_msg_defs().register_logger(msg_name, csv_loggers.back().get());
 
     return 0;
 }
@@ -62,5 +72,4 @@ void Session::add_numeric_plotter(Plot_Info& plot, QWidget* parent) {
 
     // return plots.back().get_plot_widget();
 }
-
 }  // namespace logpb

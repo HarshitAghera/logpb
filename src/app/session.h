@@ -9,6 +9,8 @@ class QWidget;
 
 struct Plot_Info;
 class CSV_Logger;
+class CSV_Logger_Info;
+class Session_Serializer;
 
 namespace logpb {
 class Message_Def_Gen;
@@ -26,8 +28,8 @@ public:
 
     File_Error_Collector add_msg_def(std::string file);
 
-    int add_csv_logger(const std::string& msg_name,
-                       std::unique_ptr<CSV_Logger> logger);
+    int add_csv_logger(const std::string& msg_name, const std::string_view file,
+                       const std::string_view del, const std::string_view lb);
 
     void add_numeric_plotter(Plot_Info& plot, QWidget* parent);
 
@@ -37,11 +39,16 @@ public:
 
     void refresh_msg_defs();
 
+    friend Session_Serializer;
+
 private:
     std::unique_ptr<Message_Def_Gen> msg_defs;
+    std::vector<std::string> def_files;
+
     std::unique_ptr<Device_Connection> connection;
 
     std::vector<std::unique_ptr<CSV_Logger>> csv_loggers;
+    std::vector<CSV_Logger_Info> csv_logger_infos;
 
     std::vector<std::unique_ptr<Plotter>> plotters;
     S_Container<std::string, const int> plotter_registery;
@@ -51,6 +58,5 @@ private:
 
     std::vector<Plot_Info> plots;
 
-    std::vector<std::string> def_files;
 };
 }  // namespace logpb
