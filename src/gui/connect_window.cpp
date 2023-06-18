@@ -1,12 +1,13 @@
 #include "connect_window.h"
 #include "ui_connect_window.h"
+#include <session.h>
 #include <QFileDialog>
 #include <device_connection_impl.h>
 
 #include <memory>
 
-Connect_Window::Connect_Window(QWidget* parent)
-    : QDialog(parent), ui(new Ui::Connect_Window) {
+Connect_Window::Connect_Window(QWidget* parent, logpb::Session* session)
+    : QDialog(parent), ui(new Ui::Connect_Window), session(session) {
     ui->setupUi(this);
 
     make_qt_ss_connections();
@@ -31,13 +32,12 @@ void Connect_Window::create_file_connection() {
 
     ui->id_defs->setPlainText(file_name);
 
-    connection = std::make_unique<logpb::File_Connection>(
-        logpb::File_Connection::create_from_path(file_name.toStdString()));
+    session->create_file_connection(file_name.toStdString());
 }
 
 std::unique_ptr<logpb::Device_Connection> Connect_Window::create_connection(
-    QWidget* parent) {
-    Connect_Window con_win{parent};
+    QWidget* parent, logpb::Session* session) {
+    Connect_Window con_win{parent, session};
     con_win.exec();
 
     return std::move(con_win.connection);

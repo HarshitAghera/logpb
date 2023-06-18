@@ -24,7 +24,7 @@ public:
 
     static File_Connection create_from_path(const std::string_view file_name);
 
-    const char* name() override { return "File Connection"; };
+    const char* name() override { return "file_connection"; };
     ZeroCopyInputStream* get_stream() override;
 
 private:

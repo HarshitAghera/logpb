@@ -35,6 +35,9 @@ public:
     void set_x(int x);
     void set_y(int y);
 
+    int get_x() const { return x_index; };
+    int get_y() const { return y_index; };
+
     Curve deserialize(const std::vector<std::unique_ptr<Plotter>>& plotters);
 
 private:
@@ -47,6 +50,7 @@ struct Plot_Info {
         std::string x_field;
         std::string y_field;
         const Curve* curve;
+        int curve_index;
     };
 
     std::vector<Curve_Info> curves;

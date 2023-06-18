@@ -9,6 +9,7 @@
 #include <stream_parser.h>
 #include <device_connection.h>
 #include "add_plot_window.h"
+#include <session_loader.h>
 
 #include <QGraphicsItem>
 #include <QGraphicsProxyWidget>
@@ -33,6 +34,8 @@ void MainWindow::make_connections() {
             this, &MainWindow::add_logger);
     connect(ui->actionAdd_Plot, &QAction::triggered,
             this, &MainWindow::add_plot);
+    connect(ui->actionSave, &QAction::triggered,
+            this, &MainWindow::save_session);
     // clang-format on
 
     // auto plot = new Basic_Plot{this};
@@ -76,7 +79,7 @@ void MainWindow::load_msg_defs() {
 }
 
 void MainWindow::create_connection() {
-    session.set_connection(Connect_Window::create_connection(this));
+    Connect_Window::create_connection(this, &session);
 
     logpb::Stream_Parser parser{session.get_connection().get_stream(),
                                 &session.get_msg_defs()};
@@ -103,4 +106,8 @@ void MainWindow::add_plot() {
     basic_plots.push_back(std::move(plot));
 
     update();
+}
+
+void MainWindow::save_session() {
+    logpb::Session_Serializer{}.serialize(session);
 }

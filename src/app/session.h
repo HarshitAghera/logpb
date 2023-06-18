@@ -26,6 +26,8 @@ public:
     Device_Connection& get_connection() { return *connection; }
     void set_connection(std::unique_ptr<Device_Connection> con);
 
+    Device_Connection& create_file_connection(const std::string_view file_name);
+
     File_Error_Collector add_msg_def(std::string file);
 
     int add_csv_logger(const std::string& msg_name, const std::string_view file,
@@ -46,6 +48,7 @@ private:
     std::vector<std::string> def_files;
 
     std::unique_ptr<Device_Connection> connection;
+    std::string file_connection_file_path;
 
     std::vector<std::unique_ptr<CSV_Logger>> csv_loggers;
     std::vector<CSV_Logger_Info> csv_logger_infos;

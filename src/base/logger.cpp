@@ -80,7 +80,8 @@ CSV_Logger::CSV_Logger(const std::string_view fp, const std::string_view del,
       buffer_size(4098),
       file_path(fp),
       file_ptr{},
-      file_descriptor(open(file_path.c_str(), O_WRONLY | O_BINARY)),
+      file_descriptor(
+          open(file_path.c_str(), O_CREAT | O_WRONLY | O_BINARY, 0666)),
       file(file_descriptor, buffer_size) {
     file.SetCloseOnDelete(true);
     file.Next(reinterpret_cast<void**>(&fbuf.buffer), &fbuf.size);

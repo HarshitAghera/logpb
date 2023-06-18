@@ -2,6 +2,7 @@
 def_files = ["filepath1"]
 
 [devices_connections]
+type = "connections_type"
 file_connection = ["filepath"]
 com_connection = ["comport"]
 
