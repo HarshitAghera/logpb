@@ -3,6 +3,8 @@
 #include "session.h"
 #include <device_connection.h>
 #include <logger.h>
+
+#define TOML_EXCEPTIONS 0
 #include <toml++/toml.h>
 
 namespace logpb {
@@ -97,4 +99,27 @@ int Session_Serializer::serialize(const Session& session) {
     return 0;
 }
 
+int Session_Serializer::deserialize(const std::string_view file_path, Session& session) {
+    toml::parse_result result = toml::parse_file(file_path);
+
+    if (! result) {
+
+        return -1;
+    }
+
+    toml::table& table = result.table();
+
+
+    //---------------- message definitions ------------------//
+    table[MSG_DEF_TABLE][DEF_FILE].as_array()->for_each([] (auto&& el) {
+        auto fp = el.as_string();
+
+    });
+
+    //---------------- device connections ------------------//
+
+    std::cout << table << '\n';
+
+    return 0;
+}
 }  // namespace logpb

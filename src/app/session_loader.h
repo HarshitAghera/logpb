@@ -26,6 +26,6 @@ class Session_Serializer {
 
 public:
     int serialize(const Session& session);
-    int deserialize(Session& session);
+    int deserialize(const std::string_view file_path, Session& session);
 };
 }
