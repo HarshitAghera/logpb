@@ -27,6 +27,7 @@ private slots:
     void add_logger();
     void add_plot();
     void save_session();
+    void load_session();
 
 private:
     void make_connections();

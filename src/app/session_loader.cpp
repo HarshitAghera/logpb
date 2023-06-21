@@ -1,5 +1,7 @@
 #include "session_loader.h"
 
+#include <fstream>
+
 #include "session.h"
 #include <device_connection.h>
 #include <logger.h>
@@ -9,7 +11,8 @@
 
 namespace logpb {
 
-int Session_Serializer::serialize(const Session& session) {
+int Session_Serializer::serialize(const std::string_view file_path,
+                                  const Session& session) {
     toml::table table;
 
     //---------------- message definitions ------------------//
@@ -95,6 +98,9 @@ int Session_Serializer::serialize(const Session& session) {
     table.emplace(PLOT_TABLE, std::move(plots));
     //------------------------------------------------------//
 
+    std::ofstream file{std::string{file_path}, std::ios_base::out};
+    file << table;
+
     std::cout << table << '\n';
     return 0;
 }
@@ -103,7 +109,6 @@ int Session_Serializer::deserialize(const std::string_view file_path, Session& s
     toml::parse_result result = toml::parse_file(file_path);
 
     if (! result) {
-
         return -1;
     }
 
@@ -111,12 +116,68 @@ int Session_Serializer::deserialize(const std::string_view file_path, Session& s
 
 
     //---------------- message definitions ------------------//
-    table[MSG_DEF_TABLE][DEF_FILE].as_array()->for_each([] (auto&& el) {
+    auto def_files = table[MSG_DEF_TABLE][DEF_FILE].as_array();
+    if (!def_files) {
+        return -1;
+    }
+
+    def_files->for_each([&](auto& el) {
         auto fp = el.as_string();
 
+        if (fp) {
+            session.add_msg_def(std::string{fp->value_or(""sv)});
+        }
     });
+    //------------------------------------------------------//
 
     //---------------- device connections ------------------//
+    auto device_conn_table = table[DEVICE_CONN_TABLE].as_table();
+    if (!device_conn_table) {
+        return -1;
+    }
+
+    auto con_type = (*device_conn_table)[DEVICE_CONN_TYPE].as_string();
+    if (!con_type) {
+        return -1;
+    }
+
+    auto type = con_type->value_or(""sv);
+
+    if (type == FILE_CONNECTION) {
+        auto file_name =
+            (*device_conn_table)[FILE_CONNECTION][0].value_or(""sv);
+        if (file_name.empty()) {
+            return -1;
+        }
+
+        session.create_file_connection(file_name);
+    } else if (type == COM_CONNECTION) {
+    }
+    //------------------------------------------------------//
+
+    //---------------------- loggers -----------------------//
+    auto logger_table = table[LOGGER_TABLE].as_table();
+    if (!logger_table) {
+        return -1;
+    }
+
+    auto csv_loggers = (*logger_table)[CSV_LOGGER].as_array();
+
+    if (!csv_loggers) {
+        return -1;
+    }
+
+    csv_loggers->for_each([&](auto& cl) {
+        auto logger = cl.as_array();
+
+        if (logger) {
+            session.add_csv_logger((*logger)[0].value_or(std::string{}),
+                                   (*logger)[1].value_or(""sv),
+                                   (*logger)[2].value_or(""sv),
+                                   (*logger)[3].value_or(""sv));
+        }
+    });
+    // ----------------------- plotters --------------------//
 
     std::cout << table << '\n';
 

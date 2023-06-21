@@ -3,6 +3,7 @@
 #include <parse_error.h>
 #include <hash_map.h>
 #include <plotter.h>
+#include <stream_parser.h>
 #include <memory>
 
 class QWidget;
@@ -41,6 +42,9 @@ public:
 
     void refresh_msg_defs();
 
+    void update_parser();
+    void parse_data();
+
     friend Session_Serializer;
 
 private:
@@ -61,5 +65,6 @@ private:
 
     std::vector<Plot_Info> plots;
 
+    std::unique_ptr<logpb::Stream_Parser> parser;
 };
 }  // namespace logpb

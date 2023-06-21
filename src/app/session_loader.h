@@ -25,7 +25,7 @@ class Session_Serializer {
     static constexpr auto BASIC_PLOT = "basic_plots"sv;
 
 public:
-    int serialize(const Session& session);
+    int serialize(const std::string_view file_path, const Session& session);
     int deserialize(const std::string_view file_path, Session& session);
 };
 }

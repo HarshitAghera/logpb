@@ -72,6 +72,7 @@ void MainWindow::add_plot_to_cs(QWidget* plot) {
     proxy->setPos(initPos.x(), initPos.y() + proxyControl->rect().height());
     proxy->setParentItem(proxyControl);
 }
+
 void MainWindow::load_msg_defs() {
     // open a sub-window
     Load_Msg_Defs_Window connect_window{this, &session};
@@ -81,10 +82,8 @@ void MainWindow::load_msg_defs() {
 void MainWindow::create_connection() {
     Connect_Window::create_connection(this, &session);
 
-    logpb::Stream_Parser parser{session.get_connection().get_stream(),
-                                &session.get_msg_defs()};
-    parser.parse();
-
+    session.update_parser();
+    session.parse_data();
     update_and_redraw_basic_plots();
 }
 
@@ -109,5 +108,15 @@ void MainWindow::add_plot() {
 }
 
 void MainWindow::save_session() {
-    logpb::Session_Serializer{}.serialize(session);
+    std::string file_path{"session.toml"};
+    logpb::Session_Serializer{}.serialize(file_path, session);
+}
+
+void MainWindow::load_session() {
+    std::string file_path{"session.toml"};
+    logpb::Session_Serializer{}.deserialize(file_path, session);
+
+    session.update_parser();
+    session.parse_data();
+    update_and_redraw_basic_plots();
 }

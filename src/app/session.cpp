@@ -85,4 +85,11 @@ void Session::add_numeric_plotter(Plot_Info& plot, QWidget* parent) {
 
     // return plots.back().get_plot_widget();
 }
+
+void Session::update_parser() {
+    parser = std::make_unique<logpb::Stream_Parser>(
+        get_connection().get_stream(), &get_msg_defs());
+}
+
+void Session::parse_data() { parser->parse(); }
 }  // namespace logpb
