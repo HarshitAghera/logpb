@@ -46,7 +46,7 @@ void Add_Plot_Window::add_plot_to_session() {
     Plot_Info plot_info{
         .curves{{fields[0]->get_field(), fields[1]->get_field()}}};
 
-    session->add_numeric_plotter(plot_info, parent);
+    session->add_numeric_plotter(plot_info);
     created_plot = std::make_unique<Basic_Plot>(parent, &plot_info);
 
     accept();

@@ -55,7 +55,7 @@ int Session::add_csv_logger(const std::string& msg_name,
     return 0;
 }
 
-void Session::add_numeric_plotter(Plot_Info& plot, QWidget* parent) {
+void Session::add_numeric_plotter(Plot_Info& plot) {
     auto add_plotter = [&](const std::string& field) -> int {
         const int* plot_index = plotter_registery.find(field);
 

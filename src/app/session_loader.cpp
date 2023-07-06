@@ -178,6 +178,56 @@ int Session_Serializer::deserialize(const std::string_view file_path, Session& s
         }
     });
     // ----------------------- plotters --------------------//
+    auto plotter_table = table[PLOTTER_TABLE].as_table();
+    if (!plotter_table) {
+        return -1;
+    }
+
+    auto numeric_plotters = (*plotter_table)[NUMERIC_PLOTTER].as_array();
+    if (!numeric_plotters) {
+        return -1;
+    }
+
+    int index{};
+
+    numeric_plotters->for_each([&](auto& elem) {
+        auto np = elem.as_string()->value_or(std::string{});
+
+        session.plotters.push_back(std::make_unique<Plotter>());
+        session.plotter_registery.insert({np, index});
+        session.msg_defs->register_plotter(np, session.plotters.back().get());
+
+        ++index;
+    });
+    //------------------------------------------------------//
+
+    // ------------------------ curves ---------------------//
+    auto curve_table = table[CURVE_TABLE].as_table();
+    if (!curve_table) {
+        return -1;
+    }
+
+    auto plot_curves = (*curve_table)[PLOT_CURVE].as_array();
+    if (!plot_curves) {
+        return -1;
+    }
+
+    plot_curves->for_each([](auto& elem) { auto curve = elem.as_array(); });
+    //------------------------------------------------------//
+
+    // ------------------------ plots ---------------------//
+    auto plot_table = table[PLOT_TABLE].as_table();
+    if (!plot_table) {
+        return -1;
+    }
+
+    auto basic_plots = (*plot_table)[BASIC_PLOT].as_array();
+    if (!basic_plots) {
+        return -1;
+    }
+
+    basic_plots->for_each([](auto& elem) { auto plot = elem.as_array(); });
+    //------------------------------------------------------//
 
     std::cout << table << '\n';
 

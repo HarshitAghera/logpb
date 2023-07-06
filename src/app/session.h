@@ -34,7 +34,7 @@ public:
     int add_csv_logger(const std::string& msg_name, const std::string_view file,
                        const std::string_view del, const std::string_view lb);
 
-    void add_numeric_plotter(Plot_Info& plot, QWidget* parent);
+    void add_numeric_plotter(Plot_Info& plot);
 
     void reset_msg_defs();
 
