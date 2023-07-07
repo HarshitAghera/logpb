@@ -34,7 +34,8 @@ public:
     int add_csv_logger(const std::string& msg_name, const std::string_view file,
                        const std::string_view del, const std::string_view lb);
 
-    void add_numeric_plotter(Plot_Info& plot);
+    void add_numeric_plotter(const Plot_Curve_Fields& fields,
+                             Plot_Widget_Factory* pwf);
 
     void reset_msg_defs();
 

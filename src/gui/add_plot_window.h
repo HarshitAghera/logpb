@@ -15,17 +15,19 @@ class Session;
 
 class Basic_Plot;
 class Msg_Field_Selection;
+class Plot_Widget_Factory;
 
 class Add_Plot_Window : public QDialog {
     Q_OBJECT
 
 public:
-    explicit Add_Plot_Window(QWidget* parent, logpb::Session* session);
+    explicit Add_Plot_Window(QWidget* parent, logpb::Session* session,
+                             Plot_Widget_Factory* pwf);
     ~Add_Plot_Window();
 
     // static int create_and_add_plot(QWidget* parent, logpb::Session* session);
-    static std::unique_ptr<Basic_Plot> create_and_add_plot(
-        QWidget* parent, logpb::Session* session);
+    static void create_and_add_plot(QWidget* parent, logpb::Session* session,
+                                    Plot_Widget_Factory* pwf);
 
     void make_connections();
 
@@ -36,7 +38,7 @@ private:
     Ui::Add_Plot_Window* ui;
     QWidget* parent;
     logpb::Session* session;
-    std::unique_ptr<Basic_Plot> created_plot;
+    Plot_Widget_Factory* pwf;
 
     std::vector<Msg_Field_Selection*> fields;
 };

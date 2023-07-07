@@ -1,15 +1,16 @@
 #include "add_plot_window.h"
 #include "ui_add_plot_window.h"
 #include "msg_field_selection.h"
-#include "basic_plot.h"
 #include <session.h>
 #include <plotter.h>
 
-Add_Plot_Window::Add_Plot_Window(QWidget* parent, logpb::Session* session)
+Add_Plot_Window::Add_Plot_Window(QWidget* parent, logpb::Session* session,
+                                 Plot_Widget_Factory* pwf)
     : QDialog(parent),
       ui(new Ui::Add_Plot_Window),
       parent{parent},
-      session{session} {
+      session{session},
+      pwf{pwf} {
     ui->setupUi(this);
 
     auto* fr_x =
@@ -34,20 +35,18 @@ Add_Plot_Window::Add_Plot_Window(QWidget* parent, logpb::Session* session)
 
 Add_Plot_Window::~Add_Plot_Window() { delete ui; }
 
-std::unique_ptr<Basic_Plot> Add_Plot_Window::create_and_add_plot(
-    QWidget* parent, logpb::Session* session) {
-    Add_Plot_Window plot_window(parent, session);
+void Add_Plot_Window::create_and_add_plot(QWidget* parent,
+                                          logpb::Session* session,
+                                          Plot_Widget_Factory* pwf) {
+    Add_Plot_Window plot_window(parent, session, pwf);
     plot_window.exec();
-
-    return std::move(plot_window.created_plot);
 }
 
 void Add_Plot_Window::add_plot_to_session() {
-    Plot_Info plot_info{
+    Plot_Curve_Fields plot_info{
         .curves{{fields[0]->get_field(), fields[1]->get_field()}}};
 
-    session->add_numeric_plotter(plot_info);
-    created_plot = std::make_unique<Basic_Plot>(parent, &plot_info);
+    session->add_numeric_plotter(plot_info, pwf);
 
     accept();
 }

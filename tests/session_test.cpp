@@ -13,5 +13,5 @@ TEST(Session_Load_Save, template_functionality) {
     // session.add_msg_def("hi");
 
     // session_serializer.serialize(file_path, session);
-    session_serializer.deserialize(file_path, session);
+    session_serializer.deserialize(file_path, session, {});
 }

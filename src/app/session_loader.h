@@ -5,6 +5,8 @@
 
 using namespace std::string_view_literals;
 
+class Plot_Widget_Factory;
+
 namespace logpb {
 class Session;
 
@@ -26,6 +28,7 @@ class Session_Serializer {
 
 public:
     int serialize(const std::string_view file_path, const Session& session);
-    int deserialize(const std::string_view file_path, Session& session);
+    int deserialize(const std::string_view file_path, Session& session,
+                    Plot_Widget_Factory* pwf);
 };
-}
+}  // namespace logpb

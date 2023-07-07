@@ -49,7 +49,7 @@ void Add_Logger_Window::add_logger_to_session() {
     auto msg_name = pkgs[ui->cb_package->currentIndex()] + "." +
                     msgs[ui->cb_message->currentIndex()];
 
-    session->add_csv_logger(msg_name, path, ",", "\n");
+    session->add_csv_logger(msg_name, path, ",", "");
     accept();
 }
 

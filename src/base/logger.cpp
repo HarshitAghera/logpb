@@ -85,6 +85,8 @@ CSV_Logger::CSV_Logger(const std::string_view fp, const std::string_view del,
       file(file_descriptor, buffer_size) {
     file.SetCloseOnDelete(true);
     file.Next(reinterpret_cast<void**>(&fbuf.buffer), &fbuf.size);
+
+    line_break.append("\n");
 }
 
 CSV_Logger::~CSV_Logger() { file.BackUp(fbuf.size); }

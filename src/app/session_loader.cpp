@@ -3,6 +3,7 @@
 #include <fstream>
 
 #include "session.h"
+#include <plotter.h>
 #include <device_connection.h>
 #include <logger.h>
 
@@ -99,22 +100,26 @@ int Session_Serializer::serialize(const std::string_view file_path,
     //------------------------------------------------------//
 
     std::ofstream file{std::string{file_path}, std::ios_base::out};
-    file << table;
+    file << table << '\n';
 
-    std::cout << table << '\n';
+    std::cout << table << "\n\n\n";
     return 0;
 }
 
-int Session_Serializer::deserialize(const std::string_view file_path, Session& session) {
+int Session_Serializer::deserialize(const std::string_view file_path,
+                                    Session& session,
+                                    Plot_Widget_Factory* pwf) {
     toml::parse_result result = toml::parse_file(file_path);
 
     if (! result) {
         return -1;
     }
 
-    toml::table& table = result.table();
+    toml::table table = std::move(result).table();
 
+    std::cout << table << "\n\n\n";
 
+    session.reset_msg_defs();
     //---------------- message definitions ------------------//
     auto def_files = table[MSG_DEF_TABLE][DEF_FILE].as_array();
     if (!def_files) {
@@ -129,6 +134,7 @@ int Session_Serializer::deserialize(const std::string_view file_path, Session& s
         }
     });
     //------------------------------------------------------//
+    session.refresh_msg_defs();
 
     //---------------- device connections ------------------//
     auto device_conn_table = table[DEVICE_CONN_TABLE].as_table();
@@ -188,16 +194,17 @@ int Session_Serializer::deserialize(const std::string_view file_path, Session& s
         return -1;
     }
 
-    int index{};
+    // int index{};
 
     numeric_plotters->for_each([&](auto& elem) {
-        auto np = elem.as_string()->value_or(std::string{});
+        // auto np = elem.as_string()->value_or(std::string{});
 
-        session.plotters.push_back(std::make_unique<Plotter>());
-        session.plotter_registery.insert({np, index});
-        session.msg_defs->register_plotter(np, session.plotters.back().get());
+        // session.plotters.push_back(std::make_unique<Plotter>());
+        // session.plotter_registery.insert({np, index});
+        // session.msg_defs->register_plotter(np,
+        // session.plotters.back().get());
 
-        ++index;
+        // ++index;
     });
     //------------------------------------------------------//
 
@@ -212,7 +219,9 @@ int Session_Serializer::deserialize(const std::string_view file_path, Session& s
         return -1;
     }
 
-    plot_curves->for_each([](auto& elem) { auto curve = elem.as_array(); });
+    plot_curves->for_each([](auto& elem) {
+        // auto curve = elem.as_array();
+    });
     //------------------------------------------------------//
 
     // ------------------------ plots ---------------------//
@@ -226,10 +235,29 @@ int Session_Serializer::deserialize(const std::string_view file_path, Session& s
         return -1;
     }
 
-    basic_plots->for_each([](auto& elem) { auto plot = elem.as_array(); });
-    //------------------------------------------------------//
+    basic_plots->for_each([&](auto& bp) {
+        auto plot = bp.as_array();
 
-    std::cout << table << '\n';
+        Plot_Curve_Fields plot_info;
+
+        plot->for_each([&](auto& elem) {
+            auto curve_index = elem.as_integer()->value_or(0);
+
+            int x_index =
+                (*plot_curves)[curve_index].as_array()->at(0).value_or(0);
+            int y_index =
+                (*plot_curves)[curve_index].as_array()->at(1).value_or(0);
+
+            plot_info.curves.push_back(
+                {.x_field =
+                     (*numeric_plotters)[x_index].value_or(std::string{}),
+                 .y_field =
+                     (*numeric_plotters)[y_index].value_or(std::string{})});
+        });
+
+        session.add_numeric_plotter(plot_info, pwf);
+    });
+    //------------------------------------------------------//
 
     return 0;
 }

@@ -55,7 +55,8 @@ int Session::add_csv_logger(const std::string& msg_name,
     return 0;
 }
 
-void Session::add_numeric_plotter(Plot_Info& plot) {
+void Session::add_numeric_plotter(const Plot_Curve_Fields& fields,
+                                  Plot_Widget_Factory* pwf) {
     auto add_plotter = [&](const std::string& field) -> int {
         const int* plot_index = plotter_registery.find(field);
 
@@ -71,19 +72,26 @@ void Session::add_numeric_plotter(Plot_Info& plot) {
         }
     };
 
-    for (auto& curve : plot.curves) {
+    Plot_Info plot_info;
+
+    for (auto& curve : fields.curves) {
         curve_serializers.push_back(Curve_Serializer{
             add_plotter(curve.x_field), add_plotter(curve.y_field)});
 
         curves.push_back(std::make_unique<Curve>(
             curve_serializers.back().deserialize(plotters)));
-        curve.curve = curves.back().get();
-        curve.curve_index = curves.size() - 1;
+
+        Plot_Info::Curve_Info ci{.x_field = curve.x_field,
+                                 .y_field = curve.y_field};
+        ci.curve = curves.back().get();
+        ci.curve_index = curves.size() - 1;
+
+        plot_info.curves.push_back(std::move(ci));
     }
 
-    plots.push_back(plot);
+    plots.push_back(plot_info);
 
-    // return plots.back().get_plot_widget();
+    pwf->process_plot_info(plots.back());
 }
 
 void Session::update_parser() {

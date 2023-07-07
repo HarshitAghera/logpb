@@ -1,0 +1,18 @@
+[curves]
+2d_curves = [ [ 0, 1 ] ]
+
+[device_connections]
+file_connection = [ '/home/harshit/projects/logger/temp/stream' ]
+type = 'file_connection'
+
+[loggers]
+csv_loggers = [ [ 'logpb.Pressure', '/home/harshit/projects/logger/temp/force0.csv', ',', '' ] ]
+
+[message_definitions]
+def_files = [ '/home/harshit/projects/logger/temp/msg_defs.proto' ]
+
+[plots]
+basic_plots = [ [ 0 ] ]
+
+[plotters]
+numeric_plotters = [ 'logpb.Pressure.pressure', 'logpb.Pressure.temperature' ]

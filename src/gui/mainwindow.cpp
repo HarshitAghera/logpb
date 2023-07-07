@@ -10,12 +10,18 @@
 #include <device_connection.h>
 #include "add_plot_window.h"
 #include <session_loader.h>
+#include <plotter.h>
 
 #include <QGraphicsItem>
 #include <QGraphicsProxyWidget>
 
+void Numeric_Plot_Factory::process_plot_info(const Plot_Info& plot_info) {
+    main_window->add_plot_to_cs(
+        std::make_unique<Basic_Plot>(main_window, &plot_info));
+}
+
 MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow) {
+    : QMainWindow(parent), ui(new Ui::MainWindow), plot_factory{this} {
     ui->setupUi(this);
 
     ui->cs_graphics_view->setRenderHint(QPainter::Antialiasing);
@@ -36,6 +42,8 @@ void MainWindow::make_connections() {
             this, &MainWindow::add_plot);
     connect(ui->actionSave, &QAction::triggered,
             this, &MainWindow::save_session);
+    connect(ui->actionOpen, &QAction::triggered,
+            this, &MainWindow::load_session);
     // clang-format on
 
     // auto plot = new Basic_Plot{this};
@@ -44,7 +52,10 @@ void MainWindow::make_connections() {
 
 MainWindow::~MainWindow() { delete ui; }
 
-void MainWindow::add_plot_to_cs(QWidget* plot) {
+void MainWindow::add_plot_to_cs(std::unique_ptr<Basic_Plot> bp) {
+    QWidget* plot = bp->get_plot_widget();
+    basic_plots.push_back(std::move(bp));
+
     QPoint initPos{10, 10};
 
     // Create the graphics item that will be used to move the widget around the
@@ -94,16 +105,11 @@ void MainWindow::update_and_redraw_basic_plots() {
 }
 
 void MainWindow::add_logger() {
-    int error = Add_Logger_Window::creat_and_add_logger(this, &session);
+    Add_Logger_Window::creat_and_add_logger(this, &session);
 }
 
 void MainWindow::add_plot() {
-    auto plot = Add_Plot_Window::create_and_add_plot(this, &session);
-
-    add_plot_to_cs(plot->get_plot_widget());
-
-    basic_plots.push_back(std::move(plot));
-
+    Add_Plot_Window::create_and_add_plot(this, &session, &plot_factory);
     update();
 }
 
@@ -114,7 +120,7 @@ void MainWindow::save_session() {
 
 void MainWindow::load_session() {
     std::string file_path{"session.toml"};
-    logpb::Session_Serializer{}.deserialize(file_path, session);
+    logpb::Session_Serializer{}.deserialize(file_path, session, &plot_factory);
 
     session.update_parser();
     session.parse_data();

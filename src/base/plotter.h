@@ -45,6 +45,15 @@ private:
     int y_index;
 };
 
+struct Plot_Curve_Fields {
+    struct Curve_Fields {
+        std::string x_field;
+        std::string y_field;
+    };
+
+    std::vector<Curve_Fields> curves;
+};
+
 struct Plot_Info {
     struct Curve_Info {
         std::string x_field;
@@ -54,4 +63,9 @@ struct Plot_Info {
     };
 
     std::vector<Curve_Info> curves;
+};
+
+class Plot_Widget_Factory {
+public:
+    virtual void process_plot_info(const Plot_Info&) = 0;
 };
