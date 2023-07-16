@@ -5,8 +5,8 @@ The project aims to provide logging and visualization solution for data acquisit
 
 
 ## Supported Platforms
-- Windows 64-bit
-- GNU/Linux 64-bit
+- Windows x64
+- GNU/Linux x64
 
 
 ## License 
@@ -31,12 +31,12 @@ It currently doesn't support CMake, and hence this [patch](https://github.com/Ha
 ## How to build
 ### Dependencies 
 #### GNU/Linux
-- Qt 6.3.2 for GCC-9 64-bit
+- Qt 6.3.2 for GCC x64
 
 #### Windows
-- Qt 6.3.2 for MSVC-2019 64-bit
+- Qt 6.3.2 for MSVC-2019 x64
 
-The Project uses GCC-9.x on GNU/Linux, and MSVC-2019 on Windows.
+The Project uses GCC on GNU/Linux, and MSVC-2019 on Windows.
 MinGW support for Windows is currently not considered.
 
 
